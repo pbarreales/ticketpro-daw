@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TicketPro - Panel de Control</title>
+    <style>
+        /* 1. VARIABLES GLOBALES (Custom Properties en Castellano) */
+        :root {
+            --color-principal: #1e3a8a;
+            /* Azul búnker corporativo */
+            --color-secundario: #3b82f6;
+            /* Azul claro para detalles */
+            --color-fondo: #f3f4f6;
+            /* Gris claro de fondo general */
+            --color-texto: #1f2937;
+            /* Gris casi negro para lectura descansa-vista */
+            --color-blanco: #ffffff;
+            --color-error: #ef4444;
+            /* Rojo para alertas y cerrar sesión */
+            --color-exito: #10b981;
+            /* Verde para estados resueltos o alertas ok */
+            --color-alerta: #f59e0b;
+            /* Naranja para estados pendientes */
+        }
+
+        /* RESETEO BÁSICO */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: var(--color-fondo);
+            color: var(--color-texto);
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        /* 2. MAQUETACIÓN DE LA BARRA SUPERIOR (Navbar) */
+        .barra-superior {
+            background-color: var(--color-principal);
+            color: var(--color-blanco);
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .contenedor-usuario {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+        }
+
+        .badge-rol {
+            background-color: var(--color-secundario);
+            color: var(--color-blanco);
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+
+        .boton-salir {
+            background-color: var(--color-error);
+            color: var(--color-blanco);
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: background 0.2s ease;
+        }
+
+        .boton-salir:hover {
+            background-color: #b91c1c;
+        }
+
+        /* 3. CONTENEDOR PRINCIPAL SIMÉTRICO */
+        .contenedor-dashboard {
+            max-width: 1200px;
+            width: 100%;
+            margin: 2rem auto;
+            padding: 0 1.5rem;
+            flex-grow: 1;
+        }
+
+        /* 👑 BLOQUE EXCLUSIVO DEL ADMIN (Camaleónico) */
+        #panelAdmin {
+            display: none;
+            /* Oculto en CSS para evitar parpadeos no autorizados */
+            background-color: #fef3c7;
+            border: 2px dashed var(--color-alerta);
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin-bottom: 2rem;
+        }
+
+        .panel-acciones-admin {
+            margin-top: 1rem;
+            display: flex;
+            gap: 1rem;
+        }
+
+        /* 📊 SECCIÓN DE TICKETS COMÚN */
+        .seccion-tickets {
+            background-color: var(--color-blanco);
+            padding: 2rem;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+        }
+
+        .cabecera-seccion {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            border-bottom: 2px solid var(--color-fondo);
+            padding-bottom: 1rem;
+        }
+
+        /* 📋 ESTRUCTURA DE LA TABLA DE DATOS */
+        .tabla-contenedor {
+            width: 100%;
+            overflow-x: auto;
+            /* Permite scroll horizontal en móviles para que no rompa el diseño */
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            text-align: left;
+        }
+
+        th,
+        td {
+            padding: 1rem;
+            border-bottom: 1px solid #e5e7eb;
+        }
+
+        th {
+            background-color: #f9fafb;
+            color: #4b5563;
+            font-weight: 600;
+            text-transform: uppercase;
+            font-size: 0.85rem;
+            letter-spacing: 0.05em;
+        }
+
+        tr:hover {
+            background-color: #f9fafb;
+        }
+
+        /* Estados de los Tickets (Estilos píldora) */
+        .estado {
+            padding: 0.25rem 0.5rem;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            font-weight: bold;
+        }
+
+        .estado-abierto {
+            background-color: #fee2e2;
+            color: var(--color-error);
+        }
+
+        .estado-progreso {
+            background-color: #fef3c7;
+            color: var(--color-alerta);
+        }
+
+        .estado-cerrado {
+            background-color: #d1fae5;
+            color: var(--color-exito);
+        }
+
+        /* 📱 DISEÑO RESPONSIVO SIMÉTRICO */
+        @media (max-width: 768px) {
+            .barra-superior {
+                flex-direction: column;
+                gap: 1rem;
+                text-align: center;
+                padding: 1.5rem;
+            }
+
+            .contenedor-usuario {
+                flex-direction: column;
+                gap: 0.75rem;
+            }
+
+            .cabecera-seccion {
+                flex-direction: column;
+                gap: 1rem;
+                align-items: flex-start;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <header class="barra-superior">
+        <h2 style="letter-spacing: 1px;">TicketPro 🎫</h2>
+        <div class="contenedor-usuario">
+            <div>
+                Bienvenido, <strong id="nombreUsuario" style="color: var(--color-secundario);">Cargando...</strong>
+                <span id="rolUsuario" class="badge-rol">Rol</span>
+            </div>
+            <button class="boton-salir" id="btnSalir">Cerrar Sesión</button>
+        </div>
+    </header>
+
+    <main class="contenedor-dashboard">
+
+        <section id="panelAdmin">
+            <h3 style="color: #92400e;">🛡️ Panel de Control del Administrador Supremo</h3>
+            <p style="font-size: 0.95rem; color: #78350f; margin-top: 0.25rem;">
+                Herramientas de gestión de personal e infraestructura global de TicketPro.
+            </p>
+            <div class="panel-acciones-admin">
+                <p><em>Cargando herramientas de personal...</em></p>
+            </div>
+        </section>
+
+        <section class="seccion-tickets">
+            <div class="cabecera-seccion">
+                <div>
+                    <h3>📋 Registro General de Incidencias</h3>
+                    <p style="font-size: 0.9rem; color: #6b7280; margin-top: 0.25rem;">
+                        Consola de tickets asociados a tu nivel de autorización de cuenta.
+                    </p>
+                </div>
+            </div>
+
+            <div class="tabla-contenedor">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Asunto / Título</th>
+                            <th>Descripción</th>
+                            <th>Estado</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tablaTicketsBody">
+                        <tr>
+                            <td colspan="5" style="text-align: center; color: #9ca3af; padding: 2rem;">
+                                Conectando con el servidor de Spring Boot...
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+    </main>
+    <script>
+        // 1. Nada más abrirse la pantalla, el JavaScript ejecuta esto automáticamente
+        document.addEventListener("DOMContentLoaded", () => {
+
+            // 2. Abrimos la mochila segura con el comando que has acertado
+            const nombre = sessionStorage.getItem("nombreUsuario");
+            const rol = sessionStorage.getItem("rolUsuario");
+
+            // 3. Control de seguridad básico: Si la mochila está vacía, patada y al login
+            if (!nombre || !rol) {
+                window.location.href = "/login.html";
+                return;
+            }
+
+            // 4. ¡INYECTAMOS LOS DATOS! Cambiamos el "Cargando..." por tus datos reales
+            document.getElementById("nombreUsuario").innerText = nombre;
+            document.getElementById("rolUsuario").innerText = rol;
+
+            // 👑 ¡LA MAGIA DEL PANEL CAMALEÓNICO!
+            // Si en la mochila pone que eres ADMIN, cambiamos el CSS para que se muestre el panel secreto
+            if (rol === "ADMIN" || rol === "SUPREMO") {
+                document.getElementById("panelAdmin").style.display = "block";
+            }
+
+            // 🚪 EXTRA: Programamos el botón de Cerrar Sesión
+            document.getElementById("btnSalir").addEventListener("click", () => {
+                sessionStorage.clear(); // Quemamos la mochila para que nadie nos robe la sesión
+                window.location.href = "/login.html"; // Volvemos al inicio
+            });
+        });
+    </script>
+</body>
+</body>
+
+</html>

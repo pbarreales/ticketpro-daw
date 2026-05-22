@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TicketPro - Iniciar Sesión</title>
+    <link rel="icon" type="image/png" href="/favicon.png">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --color-principal: #1a237e;
+            --color-principal-foco: #121858;
+            --degradado-fondo: radial-gradient(circle at center, #283593 0%, #1a237e 40%, #0d1241 100%);
+            --texto-principal: #333333;
+            --texto-atenuado: #666666;
+            --texto-enlace: #1a237e;
+            --color-borde: #e0e0e0;
+            --fondo-entrada: #f8f9fa;
+            --blanco: #ffffff;
+            --sombra-tarjeta: 0 10px 25px rgba(0, 0, 0, 0.2);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', sans-serif;
+        }
+
+        body {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--degradado-fondo);
+            background-attachment: fixed;
+        }
+
+        .contenedor-login {
+            width: 100%;
+            max-width: 480px;
+            padding: 20px;
+        }
+
+        .tarjeta-login {
+            background: var(--blanco);
+            padding: 50px;
+            border-radius: 24px;
+            box-shadow: var(--sombra-tarjeta);
+            text-align: center;
+        }
+
+        .seccion-logo {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            margin-bottom: 8px;
+        }
+
+        .icono-logo {
+            background: var(--color-principal);
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+        }
+
+        .nombre-marca {
+            font-size: 24px;
+            font-weight: 700;
+            color: #000;
+        }
+
+        .subtitulo {
+            color: var(--texto-atenuado);
+            font-size: 15px;
+            margin-bottom: 40px;
+        }
+
+        .grupo-formulario {
+            text-align: left;
+            margin-bottom: 20px;
+            position: relative;
+        }
+
+        label {
+            display: block;
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--texto-principal);
+            margin-bottom: 8px;
+        }
+
+        .envoltura-entrada {
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+
+        .envoltura-entrada i:not(.conmutador-ojo) {
+            position: absolute;
+            left: 14px;
+            color: #999;
+            font-size: 16px;
+        }
+
+        .envoltura-entrada input {
+            width: 100%;
+            border: 1px solid var(--color-borde);
+            border-radius: 10px;
+            background: var(--fondo-entrada);
+            padding: 14px 14px 14px 45px;
+            font-size: 15px;
+        }
+
+        .envoltura-entrada input:focus {
+            outline: none;
+            border-color: var(--color-principal);
+            background: white;
+            box-shadow: 0 0 0 3px rgba(26, 35, 126, 0.1);
+        }
+
+        .conmutador-ojo {
+            position: absolute;
+            right: 14px;
+            cursor: pointer;
+            color: #999;
+        }
+
+        .boton-login {
+            width: 100%;
+            background: var(--color-principal);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-weight: 600;
+            cursor: pointer;
+            padding: 16px;
+            font-size: 17px;
+            margin-top: 10px;
+            margin-bottom: 32px;
+        }
+
+        .boton-login:hover {
+            background: var(--color-principal-foco);
+        }
+
+        .texto-pie {
+            font-size: 14px;
+            color: var(--texto-atenuado);
+        }
+
+        .texto-pie a {
+            color: var(--texto-enlace);
+            text-decoration: none;
+            font-weight: 700;
+        }
+
+        .mensaje-alerta {
+            margin-bottom: 15px;
+            padding: 12px;
+            border-radius: 8px;
+            font-size: 14px;
+            display: none;
+            font-weight: 600;
+            text-align: left;
+        }
+
+        .alerta-error {
+            background-color: #ffebee;
+            color: #c62828;
+            border: 1px solid #ffcdd2;
+        }
+
+        .alerta-exito {
+            background-color: #e8f5e9;
+            color: #2e7d32;
+            border: 1px solid #c8e6c9;
+        }
+
+        @media (max-width: 768px) {
+            .contenedor-login {
+                padding: 12px;
+            }
+
+            .tarjeta-login {
+                padding: 35px 20px;
+                border-radius: 20px;
+            }
+
+            .nombre-marca {
+                font-size: 22px;
+            }
+
+            .subtitulo {
+                margin-bottom: 30px;
+                font-size: 14px;
+            }
+
+            .boton-login {
+                padding: 14px;
+                margin-bottom: 24px;
+                font-size: 16px;
+            }
+
+            .envoltura-entrada input {
+                padding: 12px 12px 12px 42px;
+                font-size: 16px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="contenedor-login">
+        <div class="tarjeta-login">
+            <div class="seccion-logo">
+                <div class="icono-logo"><i class="fas fa-ticket-alt"></i></div>
+                <span class="nombre-marca">TicketPro</span>
+            </div>
+            <p class="subtitulo">Inicia sesión en tu cuenta</p>
+
+            <div id="cajaAlerta" class="mensaje-alerta"></div>
+
+            <form id="formularioLogin">
+                <div class="grupo-formulario">
+                    <label for="correo">Email</label>
+                    <div class="envoltura-entrada">
+                        <i class="far fa-envelope"></i>
+                        <input type="email" id="correo" required placeholder="tu@email.com">
+                    </div>
+                </div>
+                <div class="grupo-formulario">
+                    <label for="contrasena">Contraseña</label>
+                    <div class="envoltura-entrada">
+                        <i class="fas fa-lock"></i>
+                        <input type="password" id="contrasena" required placeholder="••••••••">
+                        <i class="far fa-eye-slash conmutador-ojo" onclick="conmutarContrasena()"></i>
+                    </div>
+                </div>
+                <button type="submit" class="boton-login">Entrar</button>
+            </form>
+            <p class="texto-pie">¿No tienes una cuenta? <a href="/registro">Crea una aquí</a></p>
+        </div>
+    </div>
+
+    <script>
+        function conmutarContrasena() {
+            const campoContrasena = document.getElementById('contrasena');
+            const iconoOjo = document.querySelector('.conmutador-ojo');
+            if (campoContrasena.type === 'password') {
+                campoContrasena.type = 'text';
+                iconoOjo.classList.replace('fa-eye-slash', 'fa-eye');
+            } else {
+                campoContrasena.type = 'password';
+                iconoOjo.classList.replace('fa-eye', 'fa-eye-slash');
+            }
+        }
+
+        document.getElementById('formularioLogin').addEventListener('submit', async (evento) => {
+            evento.preventDefault();
+            const cajaAlerta = document.getElementById('cajaAlerta');
+            const email = document.getElementById('correo').value;
+            const password = document.getElementById('contrasena').value;
+
+            try {
+                const respuestaFromServer = await fetch('/api/auth/login', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ email, password })
+                });
+
+                // Hacemos visible la caja de alerta
+                cajaAlerta.style.display = 'block';
+
+                if (respuestaFromServer.ok) {
+                    // CAMINO VERDE: Éxito en el Login
+                    cajaAlerta.className = 'mensaje-alerta alerta-exito';
+                    cajaAlerta.innerText = '¡Inicio de sesión correcto! Redirigiendo...';
+
+                    // 1. Convertimos la respuesta de Java en JSON para extraer nombre y rol
+                    const datosUsuario = await respuestaFromServer.json();
+
+                    // 2. Guardamos los datos dentro de la mochila temporal del navegador
+                    sessionStorage.setItem("nombreUsuario", datosUsuario.nombre);
+                    sessionStorage.setItem("rolUsuario", datosUsuario.rol);
+
+                    // 3. Esperamos 1.2 segundos para ver el mensaje verde y saltamos al Dashboard
+                    setTimeout(() => {
+                        window.location.href = "/dashboard.html";
+                    }, 1200);
+
+                } else {
+                    // CAMINO ROJO: Error de credenciales (Leemos texto plano como antes)
+                    const textoResultado = await respuestaFromServer.text();
+                    cajaAlerta.className = 'mensaje-alerta alerta-error';
+                    cajaAlerta.innerText = textoResultado;
+                }
+            } catch (error) {
+                console.error("El error real es este:", error);
+                cajaAlerta.style.display = 'block';
+                cajaAlerta.className = 'mensaje-alerta alerta-error';
+                cajaAlerta.innerText = 'Error fatal: No se pudo conectar con el servidor Java.';
+            }
+        });
+    </script>
+</body>
+
+</html>

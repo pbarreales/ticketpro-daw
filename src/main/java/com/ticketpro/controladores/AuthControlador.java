@@ -41,7 +41,20 @@ public class AuthControlador {
                     .body("Error: La contraseña es incorrecta. Inténtelo de nuevo.");
         }
 
-        // Si no ha saltado ningún error, el servicio nos devolvió el nombre del usuario
-        return ResponseEntity.ok("¡Bienvenido a Ticketpro, " + resultado + "! Login correcto.");
+        // 1. Creamos el mapa que acertaste antes (Importa java.util.HashMap y
+        // java.util.Map arriba)
+        java.util.Map<String, String> respuestaJson = new java.util.HashMap<>();
+
+        // 2. Metemos el nombre (que es la variable 'resultado')
+        respuestaJson.put("nombre", resultado);
+
+        // 3. TRUCO TEMPORAL: Le colamos el rol ADMIN a piñón para probar el dashboard
+        // camaleónico
+        respuestaJson.put("rol", "ADMIN");
+
+        // 4. Devolvemos el mapa. Spring Boot lo transformará en el JSON que espera
+        // JavaScript
+        return ResponseEntity.ok(respuestaJson);
     }
+
 }
