@@ -2,6 +2,7 @@ package com.ticketpro.controladores;
 
 import com.ticketpro.dto.LoginRequest;
 import com.ticketpro.dto.RegistroRequest;
+import com.ticketpro.modelos.Usuario; // 🌟 IMPORTANTE: Añadido para poder usar la entidad
 import com.ticketpro.servicios.AuthServicio;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -26,35 +27,42 @@ public class AuthControlador {
         return ResponseEntity.status(HttpStatus.CREATED).body("¡Usuario registrado con éxito!");
     }
 
-    // LOGIN
+    // LOGIN (Saneado y adaptado a Excepciones)
     @PostMapping("/api/auth/login")
     public ResponseEntity<?> login(@RequestBody LoginRequest loginRequest) {
-        String resultado = authServicio.autenticarUsuario(loginRequest);
+        try {
+            // Intentamos autenticar. Si algo falla, el servicio lanzará un "puñetazo" al
+            // catch de abajo
+            Usuario usuario = authServicio.autenticarUsuario(loginRequest);
 
-        if (resultado.equals("ERR_NOT_FOUND")) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
-                    .body("Error: El usuario con ese email no existe.");
+            // =========================================================
+            // 🚀 ZONA DE ÉXITO: El usuario es real y el login es correcto
+            // =========================================================
+            java.util.Map<String, String> respuestaJson = new java.util.HashMap<>();
+
+            // Rellenamos el mapa con los datos reales extraídos de la base de datos
+            respuestaJson.put("nombre", usuario.getNombre());
+            respuestaJson.put("rol", usuario.getRol()); // 🌟 ¡ADIÓS CONTRABANDO! Rol real de MySQL
+
+            return ResponseEntity.ok(respuestaJson);
+
+        } catch (RuntimeException e) {
+            // Capturamos el error y miramos el texto del mensaje para responder al Front
+            String mensajeError = e.getMessage();
+
+            if ("ERR_NOT_FOUND".equals(mensajeError)) {
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                        .body("Error: El usuario con ese email no existe.");
+            }
+
+            if ("ERR_BAD_PASSWORD".equals(mensajeError)) {
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                        .body("Error: La contraseña es incorrecta. Inténtelo de nuevo.");
+            }
+
+            // Por si ocurre cualquier otro desastre informático
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("Error interno del servidor.");
         }
-
-        if (resultado.equals("ERR_BAD_PASSWORD")) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
-                    .body("Error: La contraseña es incorrecta. Inténtelo de nuevo.");
-        }
-
-        // 1. Creamos el mapa que acertaste antes (Importa java.util.HashMap y
-        // java.util.Map arriba)
-        java.util.Map<String, String> respuestaJson = new java.util.HashMap<>();
-
-        // 2. Metemos el nombre (que es la variable 'resultado')
-        respuestaJson.put("nombre", resultado);
-
-        // 3. TRUCO TEMPORAL: Le colamos el rol ADMIN a piñón para probar el dashboard
-        // camaleónico
-        respuestaJson.put("rol", "ADMIN");
-
-        // 4. Devolvemos el mapa. Spring Boot lo transformará en el JSON que espera
-        // JavaScript
-        return ResponseEntity.ok(respuestaJson);
     }
-
 }

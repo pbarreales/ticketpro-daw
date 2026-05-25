@@ -272,7 +272,7 @@
 
             // 3. Control de seguridad básico: Si la mochila está vacía, patada y al login
             if (!nombre || !rol) {
-                window.location.href = "/login.html";
+                window.location.href = "/login";
                 return;
             }
 
@@ -288,8 +288,8 @@
 
             // 🚪 EXTRA: Programamos el botón de Cerrar Sesión
             document.getElementById("btnSalir").addEventListener("click", () => {
-                sessionStorage.clear(); // Quemamos la mochila para que nadie nos robe la sesión
-                window.location.href = "/login.html"; // Volvemos al inicio
+                sessionStorage.clear(); // Vaciamos la mochila
+                window.location.href = "/login"; // 🌟 ¡CAMBIADO! Quitamos el .html para que Spring Boot lo enrute bien
             });
         });
     </script>

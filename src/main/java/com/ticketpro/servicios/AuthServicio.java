@@ -33,20 +33,23 @@ public class AuthServicio {
         return true; // Registro completado con éxito
     }
 
-    public String autenticarUsuario(LoginRequest loginRequest) {
+    // 🌟 MODIFICADO: Ahora devuelve un objeto Usuario completo
+    public Usuario autenticarUsuario(LoginRequest loginRequest) {
         Optional<Usuario> usuarioOpt = usuarioRepositorio.findByEmail(loginRequest.getEmail());
 
+        // Control tradicional: si NO está presente, lanzamos la excepción
         if (!usuarioOpt.isPresent()) {
-            return "ERR_NOT_FOUND"; // El usuario no existe
+            throw new RuntimeException("ERR_NOT_FOUND");
         }
 
+        // Si el código sigue vivo, extraemos el usuario de la caja fuerte con .get()
         Usuario usuarioReal = usuarioOpt.get();
 
-        // Verificamos la contraseña
+        // Verificamos la contraseña usando tus variables reales
         if (usuarioReal.getPassword().equals(loginRequest.getPassword())) {
-            return usuarioReal.getNombre(); // Login correcto: devolvemos su nombre para el saludo
+            return usuarioReal; // 🏆 ÉXITO: Devolvemos el usuario completo con su ROL de la BD
         } else {
-            return "ERR_BAD_PASSWORD"; // Contraseña mal introducida
+            throw new RuntimeException("ERR_BAD_PASSWORD"); // Contraseña mal introducida
         }
     }
 }
