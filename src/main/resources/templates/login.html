@@ -231,10 +231,13 @@
 
             <form id="formularioLogin">
                 <div class="grupo-formulario">
-                    <label for="correo">Email</label>
+                    <label for="email">Email</label>
                     <div class="envoltura-entrada">
                         <i class="far fa-envelope"></i>
-                        <input type="email" id="correo" required placeholder="tu@email.com">
+                        <input type="email" id="email" name="email" required
+                            pattern="[a-zA-Z0-9._%+\-]+@[a-zA-Z0-9.\-]+\.[a-zA-Z]{2,}$"
+                            title="Por favor, incluye un dominio válido (ejemplo: usuario@loquesea.com o .es /edu/net/u otro )"
+                            placeholder="tu@email.com">
                     </div>
                 </div>
                 <div class="grupo-formulario">
@@ -267,7 +270,7 @@
         document.getElementById('formularioLogin').addEventListener('submit', async (evento) => {
             evento.preventDefault();
             const cajaAlerta = document.getElementById('cajaAlerta');
-            const email = document.getElementById('correo').value;
+            const email = document.getElementById('email').value;
             const password = document.getElementById('contrasena').value;
 
             try {
@@ -291,6 +294,7 @@
                     // 2. Guardamos los datos dentro de la mochila temporal del navegador
                     sessionStorage.setItem("nombreUsuario", datosUsuario.nombre);
                     sessionStorage.setItem("rolUsuario", datosUsuario.rol);
+                    sessionStorage.setItem("usuarioId", datosUsuario.usuarioId); // 🌟 ¡Corregido!
 
                     // 3. Esperamos 1.2 segundos para ver el mensaje verde y saltamos al Dashboard
                     setTimeout(() => {
