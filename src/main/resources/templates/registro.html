@@ -233,10 +233,13 @@
                     </div>
                 </div>
                 <div class="grupo-formulario">
-                    <label for="correo">Email</label>
+                    <label for="email">Email</label>
                     <div class="envoltura-entrada">
                         <i class="far fa-envelope"></i>
-                        <input type="email" id="correo" required placeholder="tu@email.com">
+                        <input type="email" id="email" name="email" required
+                            pattern="[a-zA-Z0-9._%+\-]+@[a-zA-Z0-9.\-]+\.[a-zA-Z]{2,}$"
+                            title="Por favor, incluye un dominio válido (ejemplo: usuario@loquesea.com o .es /edu/net/u otro )"
+                            placeholder="tu@email.com">
                     </div>
                 </div>
                 <div class="grupo-formulario">
@@ -257,7 +260,7 @@
             evento.preventDefault();
             const cajaAlerta = document.getElementById('cajaAlerta');
             const nombre = document.getElementById('nombreCompleto').value;
-            const email = document.getElementById('correo').value;
+            const email = document.getElementById('email').value;
             const password = document.getElementById('contrasena').value;
 
             try {
@@ -270,8 +273,14 @@
                 cajaAlerta.style.display = 'block';
                 if (respuestaFromServer.ok) {
                     cajaAlerta.className = 'mensaje-alerta alerta-exito';
-                    cajaAlerta.innerText = textoResultado;
+                    cajaAlerta.innerText = textoResultado + ' Redirigiendo al login...';
                     document.getElementById('formularioRegistro').reset();
+
+                    // 🚀 VIAJE EN TIEMPO REAL: Esperamos 1.5 segundos y al login
+                    setTimeout(() => {
+                        window.location.href = "/login.html"; // Cambia a "/login" si tu backend maneja rutas limpias sin .html
+                    }, 1500);
+
                 } else {
                     cajaAlerta.className = 'mensaje-alerta alerta-error';
                     cajaAlerta.innerText = textoResultado;
