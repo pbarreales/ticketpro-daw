@@ -13,8 +13,9 @@ public class Usuario {
     private String nombre;
     private String email;
     private String password;
-    private String rol;
+    private String rol; // Valores posibles: USUARIO, INFORMATICO, ADMIN
 
+    // Constructor completo (para creación manual o tests)
     public Usuario(Long id, String nombre, String email, String password, String rol) {
         this.id = id;
         this.nombre = nombre;
@@ -23,6 +24,7 @@ public class Usuario {
         this.rol = rol;
     }
 
+    // Constructor vacío requerido por JPA
     public Usuario() {
 
     }

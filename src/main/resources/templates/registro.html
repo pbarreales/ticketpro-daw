@@ -178,8 +178,7 @@
             border: 1px solid #c8e6c9;
         }
 
-        /* REGLA ADAPTATIVA PARA TELÉFONOS (MÍNIMO JAVASCRIPT / MÁXIMO DISEÑO SIMILAR) */
-        /* Cambia esto en los dos HTML para que salte mucho antes al arrastrar con el ratón */
+        /* Responsive */
         @media (max-width: 768px) {
             .contenedor-login {
                 padding: 12px;
@@ -269,16 +268,18 @@
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ nombre, email, password })
                 });
+
+                // El servidor siempre responde texto plano aquí (tanto en éxito como en error)
                 const textoResultado = await respuestaFromServer.text();
                 cajaAlerta.style.display = 'block';
+
                 if (respuestaFromServer.ok) {
                     cajaAlerta.className = 'mensaje-alerta alerta-exito';
                     cajaAlerta.innerText = textoResultado + ' Redirigiendo al login...';
                     document.getElementById('formularioRegistro').reset();
 
-                    // 🚀 VIAJE EN TIEMPO REAL: Esperamos 1.5 segundos y al login
                     setTimeout(() => {
-                        window.location.href = "/login.html"; // Cambia a "/login" si tu backend maneja rutas limpias sin .html
+                        window.location.href = "/login"; // o "/login.html" si no hay controlador de ruta limpia
                     }, 1500);
 
                 } else {
@@ -286,6 +287,7 @@
                     cajaAlerta.innerText = textoResultado;
                 }
             } catch (error) {
+                // Sólo llega aquí si hay un fallo de red (servidor caído, CORS, etc.)
                 cajaAlerta.style.display = 'block';
                 cajaAlerta.className = 'mensaje-alerta alerta-error';
                 cajaAlerta.innerText = 'Error fatal: Sin respuesta del servidor central Java.';

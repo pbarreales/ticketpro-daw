@@ -5,7 +5,6 @@ public class RegistroRequest {
     private String email;
     private String password;
 
-    // Getters y Setters
     public String getNombre() {
         return nombre;
     }

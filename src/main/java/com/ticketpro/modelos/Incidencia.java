@@ -22,13 +22,13 @@ public class Incidencia {
     @Column(name = "categoria_id")
     private Long categoriaId;
 
+    // Las relaciones se guardan como IDs simples (sin @ManyToOne) para simplificar las consultas REST
     @Column(name = "cliente_id")
     private Long clienteId;
 
     @Column(name = "informatico_id")
-    private Long informaticoId;
+    private Long informaticoId; // null = sin técnico asignado
 
-    // Getters y Setters
     public Long getId() {
         return id;
     }
