@@ -3,7 +3,7 @@
 -- =========================================================================
 -- Esto es despues de haberla insertado ya 
 CREATE DATABASE IF NOT EXISTS `ticketpro`;
-USE `ticketpro`;
+USE 'ticketpro';
 
 -- 1. TABLA: usuarios
 CREATE TABLE IF NOT EXISTS `usuarios` (

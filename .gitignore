@@ -1,0 +1,7 @@
+.env
+
+# Compilados de Maven
+target/
+
+# Basura de macOS
+.DS_Store

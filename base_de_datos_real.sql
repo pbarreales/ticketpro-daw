@@ -1,6 +1,3 @@
--- =========================================================================
--- 🗄️ SCRIPT OFICIAL DE LA BASE DE DATOS - TICKETPRO (Sincronización Total)
--- =========================================================================
 
 CREATE DATABASE IF NOT EXISTS `ticketpro`;
 USE `ticketpro`;
