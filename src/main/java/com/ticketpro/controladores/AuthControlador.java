@@ -15,6 +15,7 @@ public class AuthControlador {
     @Autowired
     private AuthServicio authServicio;
 
+    // POST /api/auth/registro — responde texto plano (201 o 400)
     @PostMapping("/api/auth/registro")
     public ResponseEntity<?> registrarUsuario(@RequestBody RegistroRequest peticion) {
         boolean exito = authServicio.registrarUsuario(peticion);
@@ -26,23 +27,22 @@ public class AuthControlador {
         return ResponseEntity.status(HttpStatus.CREATED).body("¡Usuario registrado con éxito!");
     }
 
+    // POST /api/auth/login — responde JSON con { usuarioId, nombre, rol } o texto de error
     @PostMapping("/api/auth/login")
     public ResponseEntity<?> login(@RequestBody LoginRequest loginRequest) {
         try {
             Usuario usuario = authServicio.autenticarUsuario(loginRequest);
 
-            // =========================================================
-            // 🚀 ZONA DE ÉXITO: Inyectamos el ID que le faltaba al JS
-            // =========================================================
+            // El front necesita el id, nombre y rol para construir el dashboard
             java.util.Map<String, String> respuestaJson = new java.util.HashMap<>();
-
-            respuestaJson.put("usuarioId", String.valueOf(usuario.getId())); // 🌟 LA LLAVE MAESTRA DE 64 BITS
+            respuestaJson.put("usuarioId", String.valueOf(usuario.getId()));
             respuestaJson.put("nombre", usuario.getNombre());
             respuestaJson.put("rol", usuario.getRol());
 
             return ResponseEntity.ok(respuestaJson);
 
         } catch (RuntimeException e) {
+            // AuthServicio lanza códigos de error string; aquí los traducimos a HTTP
             String mensajeError = e.getMessage();
 
             if ("ERR_NOT_FOUND".equals(mensajeError)) {

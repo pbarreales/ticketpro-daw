@@ -8,56 +8,21 @@ import java.util.List;
 @Repository
 public interface IncidenciaRepositorio extends JpaRepository<Incidencia, Long> {
 
-    // =========================================================================
-    // 🔍 1. FILTROS BÁSICOS Y BUSCADORES DE TEXTO
-    // =========================================================================
-
-    // El buscador por título inteligente que ya teníamos
+    // --- Búsqueda por texto y estado ---
     List<Incidencia> findByTituloContainingIgnoreCase(String titulo);
-
-    // Buscar directamente por el Estado de la incidencia (ej: "Pendiente", "En
-    // Proceso", "Resuelta")
     List<Incidencia> findByEstado(String estado);
-
-    // Buscar por Categoría (Para filtrar tickets por "Redes", "Hardware",
-    // "Software")
     List<Incidencia> findByCategoriaId(Long categoriaId);
 
-    // =========================================================================
-    // 👤 2. FILTROS DE ROL (Fundamentales para los Dashboards de los usuarios)
-    // =========================================================================
-
-    // Panel del Cliente: Muestra únicamente los tickets que ha creado ese cliente
-    // específico
+    // --- Filtros por rol: usados en los dashboards de cliente e informático ---
     List<Incidencia> findByClienteId(Long clienteId);
-
-    // Panel del Informático: Muestra los tickets que tiene asignados ese técnico
-    // específico
     List<Incidencia> findByInformaticoId(Long informaticoId);
-
-    // Bolsa de Trabajo: Muestra los tickets que NO tienen ningún informático
-    // asignado aún (informatico_id IS NULL)
-    // ¡Este es clave para que los técnicos puedan "pescar" y asignarse incidencias
-    // pendientes!
+    // Incidencias sin técnico asignado (bolsa de trabajo)
     List<Incidencia> findByInformaticoIdIsNull();
 
-    // =========================================================================
-    // 🎛️ 3. FILTROS COMBINADOS AVANZADOS (Máxima Usabilidad en UI)
-    // =========================================================================
-
-    // Mis Tickets Activos (Cliente): Filtra los tickets de un cliente que además
-    // están en un estado concreto
+    // --- Filtros combinados ---
     List<Incidencia> findByClienteIdAndEstado(Long clienteId, String estado);
-
-    // Mis Tareas Activas (Informático): Filtra los tickets de un técnico que están
-    // en proceso
     List<Incidencia> findByInformaticoIdAndEstado(Long informaticoId, String estado);
 
-    // =========================================================================
-    // ⏱️ 4. ORDENACIÓN CRONOLÓGICA (Para que lo más nuevo salga arriba de la tabla)
-    // =========================================================================
-
-    // Traer absolutamente todas las incidencias ordenadas de la más reciente a la
-    // más antigua
+    // Listado completo ordenado de más reciente a más antiguo
     List<Incidencia> findAllByOrderByFechaCreacionDesc();
 }

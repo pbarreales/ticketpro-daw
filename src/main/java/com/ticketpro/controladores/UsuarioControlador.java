@@ -12,24 +12,18 @@ public class UsuarioControlador {
     @Autowired
     private UsuarioRepositorio usuarioRepositorio;
 
-    // 🌟 ENDPOINT 1: Listar todos los usuarios para el panel de administración
-    // URL: http://localhost:8080/api/usuarios
+    // GET /api/usuarios — usado por el panel de administración para listar todo el personal
     @GetMapping("/api/usuarios")
     public List<Usuario> listarTodos() {
         return usuarioRepositorio.findAll();
     }
 
-    // 🌟 ENDPOINT 2: Cambiar el rol de un usuario en seco en la Base de Datos
-    // URL: http://localhost:8080/api/usuarios/4/rol?nuevoRol=INFORMATICO
+    // PUT /api/usuarios/{id}/rol?nuevoRol=INFORMATICO
+    // Roles posibles: USUARIO, INFORMATICO, ADMIN
     @PutMapping("/api/usuarios/{id}/rol")
     public Usuario cambiarRol(@PathVariable Long id, @RequestParam String nuevoRol) {
-        // Buscamos al usuario por su ID primario
         Usuario usuario = usuarioRepositorio.findById(id).orElseThrow();
-
-        // Modificamos el rol en caliente
         usuario.setRol(nuevoRol);
-
-        // Guardamos la mutación en MySQL
         return usuarioRepositorio.save(usuario);
     }
 }

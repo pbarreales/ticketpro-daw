@@ -9,28 +9,15 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface UsuarioRepositorio extends JpaRepository<Usuario, Long> {
 
-    // 🔐 EL SAGRADO LOGIN (Intacto, ni un rasguño)
+    // Punto de entrada del login: busca por email para luego validar la contraseña con BCrypt
     Optional<Usuario> findByEmail(String email);
 
-    // =========================================================================
-    // 🚀 NUEVOS SUPERPODERES DE USABILIDAD (Sin alterar el login)
-    // =========================================================================
-
-    // 1. DESPLEGABLES DE ASIGNACIÓN: Filtra usuarios por su rol (ej: 'INFORMATICO'
-    // o 'cliente')
-    // ¡Este es VITAL para cargar la lista de técnicos en el desplegable de
-    // asignación de tickets!
+    // Para cargar desplegables de asignación filtrados por rol (ej: INFORMATICO)
     List<Usuario> findByRol(String rol);
 
-    // 2. SEGURIDAD EN REGISTRO: Comprueba si un email ya está registrado antes de
-    // crearlo
-    // Devuelve true o false. Sirve para avisar al usuario: "Este correo ya está en
-    // uso" sin romper la app.
+    // Para validar en el registro que el email no está ya en uso
     boolean existsByEmail(String email);
 
-    // 3. BUSCADOR DE PERSONAL: Busca usuarios por nombre (coincidencia parcial e
-    // ignorando mayúsculas)
-    // Ideal para que el administrador busque a un cliente o técnico por su nombre
-    // en el panel de control.
+    // Búsqueda de usuarios por nombre, útil en el panel de administración
     List<Usuario> findByNombreContainingIgnoreCase(String nombre);
 }

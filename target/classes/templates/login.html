@@ -255,6 +255,7 @@
     </div>
 
     <script>
+        // Alterna visibilidad de la contraseña (llamado desde el onclick del icono del ojo)
         function conmutarContrasena() {
             const campoContrasena = document.getElementById('contrasena');
             const iconoOjo = document.querySelector('.conmutador-ojo');
@@ -280,34 +281,31 @@
                     body: JSON.stringify({ email, password })
                 });
 
-                // Hacemos visible la caja de alerta
                 cajaAlerta.style.display = 'block';
 
                 if (respuestaFromServer.ok) {
-                    // CAMINO VERDE: Éxito en el Login
                     cajaAlerta.className = 'mensaje-alerta alerta-exito';
                     cajaAlerta.innerText = '¡Inicio de sesión correcto! Redirigiendo...';
 
-                    // 1. Convertimos la respuesta de Java en JSON para extraer nombre y rol
+                    // El servidor devuelve JSON con { usuarioId, nombre, rol }
+                    // Se guarda en sessionStorage para que dashboard.js lo lea al cargar
                     const datosUsuario = await respuestaFromServer.json();
-
-                    // 2. Guardamos los datos dentro de la mochila temporal del navegador
                     sessionStorage.setItem("nombreUsuario", datosUsuario.nombre);
                     sessionStorage.setItem("rolUsuario", datosUsuario.rol);
-                    sessionStorage.setItem("usuarioId", datosUsuario.usuarioId); // 🌟 ¡Corregido!
+                    sessionStorage.setItem("usuarioId", datosUsuario.usuarioId);
 
-                    // 3. Esperamos 1.2 segundos para ver el mensaje verde y saltamos al Dashboard
                     setTimeout(() => {
                         window.location.href = "/dashboard.html";
                     }, 1200);
 
                 } else {
-                    // CAMINO ROJO: Error de credenciales (Leemos texto plano como antes)
+                    // En error, el servidor devuelve texto plano (no JSON)
                     const textoResultado = await respuestaFromServer.text();
                     cajaAlerta.className = 'mensaje-alerta alerta-error';
                     cajaAlerta.innerText = textoResultado;
                 }
             } catch (error) {
+                // Sólo llega aquí si hay un fallo de red (servidor caído, CORS, etc.)
                 console.error("El error real es este:", error);
                 cajaAlerta.style.display = 'block';
                 cajaAlerta.className = 'mensaje-alerta alerta-error';

@@ -13,77 +13,62 @@ public class IncidenciaControlador {
     @Autowired
     private IncidenciaRepositorio incidenciaRepositorio;
 
-    // =========================================================================
-    // 📖 ZONA DE LECTURA (GET) - Lo que ya teníamos
-    // =========================================================================
+    // --- Consultas (GET) ---
+
+    // GET /api/incidencias — listado completo, el más reciente primero
     @GetMapping("/api/incidencias")
     public List<Incidencia> listarTodas() {
         return incidenciaRepositorio.findAllByOrderByFechaCreacionDesc();
     }
 
+    // GET /api/incidencias/buscar?titulo=...
     @GetMapping("/api/incidencias/buscar")
     public List<Incidencia> buscarPorTitulo(@RequestParam String titulo) {
         return incidenciaRepositorio.findByTituloContainingIgnoreCase(titulo);
     }
 
+    // GET /api/incidencias/estado?estado=... (valores: Abierto, En Progreso, Resuelto)
     @GetMapping("/api/incidencias/estado")
     public List<Incidencia> filtrarPorEstado(@RequestParam String estado) {
         return incidenciaRepositorio.findByEstado(estado);
     }
 
+    // GET /api/incidencias/cliente?clienteId=... — dashboard del cliente: solo sus tickets
     @GetMapping("/api/incidencias/cliente")
     public List<Incidencia> verMisTicketsComoCliente(@RequestParam Long clienteId) {
         return incidenciaRepositorio.findByClienteId(clienteId);
     }
 
+    // GET /api/incidencias/sin-asignar — bolsa de trabajo para que los técnicos se asignen tickets
     @GetMapping("/api/incidencias/sin-asignar")
     public List<Incidencia> listarSinAsignar() {
         return incidenciaRepositorio.findByInformaticoIdIsNull();
     }
 
-    // =========================================================================
-    // ✍️ ZONA DE ESCRITURA (POST / PUT) - La nueva artillería
-    // =========================================================================
+    // --- Escritura (POST / PUT) ---
 
-    // 🌟 1. CREAR UN TICKET NUEVO (Para el cliente)
+    // POST /api/incidencias — la fecha y el estado inicial los fija el servidor, no el cliente
     @PostMapping("/api/incidencias")
     public Incidencia crearTicket(@RequestBody Incidencia nuevaIncidencia) {
-        // Le inyectamos la fecha y hora exacta del servidor en el momento del clic
         nuevaIncidencia.setFechaCreacion(LocalDateTime.now());
-        // Forzamos el estado inicial para que nadie nos cuele un ticket "Resuelto"
-        // desde el inicio
         nuevaIncidencia.setEstado("Abierto");
-
-        // Guardamos en MySQL y devolvemos el objeto ya con su ID generado
         return incidenciaRepositorio.save(nuevaIncidencia);
     }
 
-    // 🌟 2. CAMBIAR EL ESTADO DEL TICKET (Para el informático/admin)
-    // URL: http://localhost:8080/api/incidencias/5/estado?nuevoEstado=En Progreso
+    // PUT /api/incidencias/{id}/estado?nuevoEstado=...
     @PutMapping("/api/incidencias/{id}/estado")
     public Incidencia cambiarEstado(@PathVariable Long id, @RequestParam String nuevoEstado) {
-        // Buscamos el ticket por su ID. Si no existe, explotamos con un error genérico
-        // (orElseThrow)
         Incidencia ticket = incidenciaRepositorio.findById(id).orElseThrow();
-
-        // Actualizamos solo el estado
         ticket.setEstado(nuevoEstado);
-
-        // Sobreescribimos en la base de datos
         return incidenciaRepositorio.save(ticket);
     }
 
-    // 🌟 3. ASIGNAR UN TÉCNICO AL TICKET (Para la bolsa de trabajo o admin)
-    // URL: http://localhost:8080/api/incidencias/5/asignar?informaticoId=2
+    // PUT /api/incidencias/{id}/asignar?informaticoId=...
     @PutMapping("/api/incidencias/{id}/asignar")
     public Incidencia asignarTecnico(@PathVariable Long id, @RequestParam Long informaticoId) {
         Incidencia ticket = incidenciaRepositorio.findById(id).orElseThrow();
         ticket.setInformaticoId(informaticoId);
-
-        // Opcional pero recomendado: Al asignarlo, pasamos el ticket automáticamente a
-        // "En Progreso"
-        ticket.setEstado("En Progreso");
-
+        ticket.setEstado("En Progreso"); // Al asignar técnico, el ticket pasa automáticamente a "En Progreso"
         return incidenciaRepositorio.save(ticket);
     }
 }
