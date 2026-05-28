@@ -1,0 +1,30 @@
+version: '3.8'
+
+services:
+  base_datos:
+    image: mysql:8.0
+    container_name: contenedor_bd_ticketpro
+    restart: always
+    environment:
+      MYSQL_DATABASE: ${NOMBRE_BD}
+      MYSQL_ROOT_PASSWORD: ${CONTRASENA_BD}
+    ports:
+      - "3306:3306"
+    volumes:
+      - volumen_datos_mysql:/var/lib/mysql
+
+  aplicacion_spring:
+    build: .
+    container_name: contenedor_app_ticketpro
+    restart: always
+    ports:
+      - "8080:8080"
+    environment:
+      HOST_BD: base_datos
+      USUARIO_BD: ${USUARIO_BD}
+      CONTRASENA_BD: ${CONTRASENA_BD}
+    depends_on:
+      - base_datos
+
+volumes:
+  volumen_datos_mysql:
