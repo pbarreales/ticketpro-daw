@@ -185,7 +185,7 @@ async function cargarUsuariosAdmin() {
 
         usuarios.forEach(u => {
             const botonTexto = u.rol === 'INFORMATICO' ? '✖ Quitar Técnico' : '🛠 Hacer Técnico';
-            const nuevoRolDestino = u.rol === 'INFORMATICO' ? 'cliente' : 'INFORMATICO';
+            const nuevoRolDestino = u.rol === 'INFORMATICO' ? 'USUARIO' : 'INFORMATICO';
 
             html += `
                 <tr style="border-bottom: 1px solid #e5e7eb;">

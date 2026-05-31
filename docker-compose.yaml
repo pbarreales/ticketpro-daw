@@ -6,12 +6,13 @@ services:
     container_name: contenedor_bd_ticketpro
     restart: always
     environment:
-      MYSQL_DATABASE: ${NOMBRE_BD}
-      MYSQL_ROOT_PASSWORD: ${CONTRASENA_BD}
+      MYSQL_DATABASE: ${MYSQL_DB_NAME}
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
     ports:
       - "3306:3306"
     volumes:
       - volumen_datos_mysql:/var/lib/mysql
+      - ./ticketpro.sql:/docker-entrypoint-initdb.d/01-ticketpro.sql
 
   aplicacion_spring:
     build: .
@@ -20,9 +21,10 @@ services:
     ports:
       - "8080:8080"
     environment:
-      HOST_BD: base_datos
-      USUARIO_BD: ${USUARIO_BD}
-      CONTRASENA_BD: ${CONTRASENA_BD}
+      DB_HOST: base_datos
+      MYSQL_DB_NAME: ${MYSQL_DB_NAME}
+      MYSQL_ROOT_USER: ${MYSQL_ROOT_USER}
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
     depends_on:
       - base_datos
 
