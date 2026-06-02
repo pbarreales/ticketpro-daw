@@ -1,6 +1,8 @@
 package com.ticketpro.modelos;
 
 import jakarta.persistence.*;
+import java.util.List;
+import java.util.ArrayList;
 
 @Entity
 @Table(name = "usuarios")
@@ -13,9 +15,9 @@ public class Usuario {
     private String nombre;
     private String email;
     private String password;
-    private String rol; // Valores posibles: USUARIO, INFORMATICO, ADMIN
+    private String rol;
 
-    // Constructor completo (para creación manual o tests)
+
     public Usuario(Long id, String nombre, String email, String password, String rol) {
         this.id = id;
         this.nombre = nombre;
@@ -24,7 +26,7 @@ public class Usuario {
         this.rol = rol;
     }
 
-    // Constructor vacío requerido por JPA
+
     public Usuario() {
 
     }
@@ -67,6 +69,18 @@ public class Usuario {
 
     public void setRol(String rol) {
         this.rol = rol;
+    }
+
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "cliente_id")
+    private List<Incidencia> incidencias = new ArrayList<>();
+
+    public List<Incidencia> getIncidencias() {
+        return incidencias;
+    }
+
+    public void setIncidencias(List<Incidencia> incidencias) {
+        this.incidencias = incidencias;
     }
 
 }

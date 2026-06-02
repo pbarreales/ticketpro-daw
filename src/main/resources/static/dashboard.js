@@ -79,9 +79,9 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 });
 
-// ==========================================
-// 🚀 CONEXIONES CON EL BACKEND (FETCH API)
-// ==========================================
+
+
+
 
 async function cargarTicketsCliente(clienteId) {
     const respuesta = await fetch(`/api/incidencias/cliente?clienteId=${clienteId}`);
@@ -197,6 +197,9 @@ async function cargarUsuariosAdmin() {
                         <button onclick="cambiarRolUsuario(${u.id}, '${nuevoRolDestino}')" class="btn-primario" style="padding: 4px 8px; font-size: 0.8rem; background-color: ${u.rol === 'INFORMATICO' ? '#ef4444' : '#3b82f6'}">
                             ${botonTexto}
                         </button>
+                        <button onclick="eliminarUsuario(${u.id}, this)" class="btn-secundario" style="padding: 4px 8px; font-size: 0.8rem; background-color: #dc2626; color: white; border: none; border-radius: 4px; margin-left: 8px; cursor: pointer;">
+                            🗑 Eliminar
+                        </button>
                     </td>
                 </tr>
             `;
@@ -219,6 +222,34 @@ async function cambiarRolUsuario(idUsuario, nuevoRol) {
     }
 }
 
+// ELIMINAR USUARIO (DELETE)
+async function eliminarUsuario(idUsuario, boton) {
+    if (!confirm("¿Está seguro de que desea eliminar a este usuario? Esta acción también eliminará todas sus incidencias asociadas y no se puede deshacer.")) {
+        return;
+    }
+
+    try {
+        const respuesta = await fetch(`/api/usuarios/${idUsuario}`, {
+            method: 'DELETE'
+        });
+
+        if (respuesta.ok) {
+            alert("¡Usuario y sus tickets eliminados con éxito!");
+            // Eliminar la fila del DOM directamente sin recargar
+            const fila = boton.closest("tr");
+            if (fila) {
+                fila.remove();
+            }
+        } else {
+            alert("Error al intentar eliminar el usuario.");
+        }
+    } catch (error) {
+        console.error("Error en la conexión:", error);
+        alert("Ocurrió un error de red al intentar eliminar el usuario.");
+    }
+}
+
 // Exponer funciones al ámbito global para los onclick de HTML
 window.cambiarRolUsuario = cambiarRolUsuario;
 window.cambiarEstadoTicket = cambiarEstadoTicket;
+window.eliminarUsuario = eliminarUsuario;
