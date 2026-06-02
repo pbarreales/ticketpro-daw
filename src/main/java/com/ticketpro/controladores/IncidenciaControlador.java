@@ -13,7 +13,6 @@ public class IncidenciaControlador {
     @Autowired
     private IncidenciaRepositorio incidenciaRepositorio;
 
-    // --- Consultas (GET) ---
 
     // GET /api/incidencias — listado completo, el más reciente primero
     @GetMapping("/api/incidencias")

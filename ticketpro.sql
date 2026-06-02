@@ -39,10 +39,10 @@ CREATE TABLE IF NOT EXISTS incidencias (
   CONSTRAINT incidencias_ibfk_3 FOREIGN KEY (informatico_id) REFERENCES usuarios (id) ON DELETE SET NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- =========================================================================
+
 -- DATOS SEMILLA: usuarios por defecto
 -- Contraseña en texto plano para ambos: 1234
--- =========================================================================
+
 
 INSERT INTO usuarios (nombre, email, password, rol)
 VALUES ('Administrador', 'admin@ticketpro.com',

@@ -4,6 +4,7 @@ import com.ticketpro.modelos.Usuario;
 import com.ticketpro.repositorios.UsuarioRepositorio;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.http.ResponseEntity;
 import java.util.List;
 
 @RestController
@@ -25,5 +26,15 @@ public class UsuarioControlador {
         Usuario usuario = usuarioRepositorio.findById(id).orElseThrow();
         usuario.setRol(nuevoRol);
         return usuarioRepositorio.save(usuario);
+    }
+
+    // DELETE /api/usuarios/{id} — usado por el ADMIN para eliminar un usuario y sus incidencias
+    @DeleteMapping("/api/usuarios/{id}")
+    public ResponseEntity<Void> eliminarUsuario(@PathVariable Long id) {
+        if (!usuarioRepositorio.existsById(id)) {
+            return ResponseEntity.notFound().build();
+        }
+        usuarioRepositorio.deleteById(id);
+        return ResponseEntity.noContent().build();
     }
 }
