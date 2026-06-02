@@ -41,7 +41,7 @@ CREATE TABLE IF NOT EXISTS incidencias (
 
 
 -- DATOS SEMILLA: usuarios por defecto
--- Contraseña en texto plano para ambos: 1234
+
 
 
 INSERT INTO usuarios (nombre, email, password, rol)
