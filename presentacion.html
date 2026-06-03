@@ -1,1416 +1,525 @@
 <!DOCTYPE html>
 <html lang="es">
-
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TicketPro — Defensa DAW</title>
-
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/reset.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/reveal.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css">
-    <link
-        href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap"
-        rel="stylesheet">
-
-    <style>
-        :root {
-            --bg: #111318;
-            --bg2: #181c24;
-            --borde: #252c3a;
-            --azul: #4d7cfe;
-            --azul2: #7aa2ff;
-            --verde: #2db87a;
-            --verde2: #52d49a;
-            --amar: #e8a023;
-            --rojo: #e05252;
-            --mora: #9775fa;
-            --t1: #eef0f6;
-            --t2: #8d97b0;
-            --t3: #444f66;
-        }
-
-
-        .reveal-viewport,
-        .reveal,
-        .reveal .slides {
-            background: var(--bg) !important;
-            font-family: 'DM Sans', sans-serif !important;
-        }
-
-        .reveal .slides section {
-            color: var(--t1);
-            text-align: left;
-            height: 100%;
-            display: flex !important;
-            flex-direction: column;
-            justify-content: center;
-            padding: 0 4rem;
-            box-sizing: border-box;
-        }
-
-        .reveal h1,
-        .reveal h2 {
-            font-family: 'DM Serif Display', serif !important;
-            text-transform: none;
-            letter-spacing: -0.01em;
-            font-weight: 400;
-            color: var(--t1);
-            margin: 0;
-            line-height: 1.1;
-        }
-
-        .reveal h3 {
-            font-family: 'DM Sans', sans-serif;
-            font-weight: 600;
-            text-transform: none;
-            letter-spacing: 0;
-            color: var(--t1);
-            margin: 0;
-        }
-
-        .reveal h1 {
-            font-size: 3.2em;
-        }
-
-        .reveal h2 {
-            font-size: 2em;
-        }
-
-        .reveal h3 {
-            font-size: 1.05em;
-        }
-
-        .reveal p {
-            margin: 0;
-        }
-
-        .reveal pre {
-            box-shadow: none;
-            border-radius: 8px;
-            border: 1px solid var(--borde);
-            width: 100%;
-            margin: 0;
-        }
-
-        .reveal pre code {
-            font-family: 'JetBrains Mono', monospace !important;
-            font-size: 0.82em;
-            line-height: 1.75;
-            padding: 1.1rem 1.4rem;
-            max-height: 360px;
-            border-radius: 8px;
-        }
-
-        .reveal code {
-            font-family: 'JetBrains Mono', monospace;
-        }
-
-
-        .reveal .progress {
-            height: 2px;
-            color: var(--azul);
-        }
-
-
-        .reveal .slides>section,
-        .reveal .slides>section>section {
-            border: none !important;
-            outline: none !important;
-        }
-
-        .reveal .slide-background {
-            border: none !important;
-        }
-
-
-        .reveal .progress span {
-            background: var(--azul) !important;
-        }
-
-        .reveal:after,
-        .reveal:before,
-        .reveal .slides:after,
-        .reveal .slides:before {
-            display: none !important;
-        }
-
-        .reveal .controls button.enabled {
-            color: var(--azul);
-        }
-
-        .reveal .slide-number {
-            background: transparent;
-            color: var(--t3);
-            font-family: 'DM Sans', sans-serif;
-            font-size: 0.7em;
-            bottom: 1rem;
-            right: 1rem;
-        }
-
-
-        .sep {
-            width: 36px;
-            height: 3px;
-            background: var(--azul);
-            border-radius: 2px;
-            margin: 0.65rem 0 1.3rem;
-        }
-
-
-        .eyebrow {
-            font-size: 0.72em;
-            font-weight: 600;
-            letter-spacing: 0.12em;
-            text-transform: uppercase;
-            color: var(--azul);
-            margin-bottom: 0.5rem;
-        }
-
-
-        .sub {
-            font-size: 0.9em;
-            color: var(--t2);
-            line-height: 1.65;
-        }
-
-        .sub-sm {
-            font-size: 0.82em;
-            color: var(--t2);
-            line-height: 1.6;
-        }
-
-
-        .ci {
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 0.82em;
-            color: var(--azul2);
-            background: rgba(77, 124, 254, .1);
-            padding: 0.08em 0.4em;
-            border-radius: 4px;
-        }
-
-
-        .nota {
-            font-size: 0.74em;
-            color: var(--t3);
-            border-left: 2px solid var(--borde);
-            padding-left: 0.8rem;
-            line-height: 1.6;
-        }
-
-
-        .g2 {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 1.2rem;
-            width: 100%;
-        }
-
-        .g3 {
-            display: grid;
-            grid-template-columns: 1fr 1fr 1fr;
-            gap: 1rem;
-            width: 100%;
-        }
-
-
-        .card {
-            background: var(--bg2);
-            border: 1px solid var(--borde);
-            border-radius: 10px;
-            padding: 1.1rem 1.3rem;
-        }
-
-        .card-azul {
-            border-left: 3px solid var(--azul);
-        }
-
-        .card-verde {
-            border-left: 3px solid var(--verde);
-        }
-
-        .card-amar {
-            border-left: 3px solid var(--amar);
-        }
-
-        .card-rojo {
-            border-left: 3px solid var(--rojo);
-        }
-
-        .card-mora {
-            border-left: 3px solid var(--mora);
-        }
-
-
-        .pill {
-            display: inline-block;
-            padding: 0.2em 0.7em;
-            border-radius: 6px;
-            font-size: 0.8em;
-            font-weight: 600;
-        }
-
-        .p-azul {
-            background: rgba(77, 124, 254, .15);
-            color: var(--azul2);
-        }
-
-        .p-amar {
-            background: rgba(232, 160, 35, .15);
-            color: var(--amar);
-        }
-
-        .p-verde {
-            background: rgba(45, 184, 122, .15);
-            color: var(--verde2);
-        }
-
-        .p-rojo {
-            background: rgba(224, 82, 82, .15);
-            color: var(--rojo);
-        }
-
-        .p-mora {
-            background: rgba(151, 117, 250, .15);
-            color: var(--mora);
-        }
-
-
-        .tag {
-            display: inline-block;
-            padding: 0.2em 0.8em;
-            border-radius: 4px;
-            font-size: 0.66em;
-            font-weight: 600;
-            letter-spacing: 0.06em;
-            text-transform: uppercase;
-        }
-
-        .t-azul {
-            background: rgba(77, 124, 254, .12);
-            color: var(--azul2);
-            border: 1px solid rgba(77, 124, 254, .25);
-        }
-
-        .t-verde {
-            background: rgba(45, 184, 122, .12);
-            color: var(--verde2);
-            border: 1px solid rgba(45, 184, 122, .25);
-        }
-
-        .t-amar {
-            background: rgba(232, 160, 35, .12);
-            color: var(--amar);
-            border: 1px solid rgba(232, 160, 35, .25);
-        }
-
-        .t-rojo {
-            background: rgba(224, 82, 82, .12);
-            color: var(--rojo);
-            border: 1px solid rgba(224, 82, 82, .25);
-        }
-
-        .t-mora {
-            background: rgba(151, 117, 250, .12);
-            color: var(--mora);
-            border: 1px solid rgba(151, 117, 250, .25);
-        }
-
-
-        .chip {
-            padding: 0.28rem 0.85rem;
-            background: rgba(255, 255, 255, .04);
-            border: 1px solid var(--borde);
-            border-radius: 6px;
-            font-size: 0.76em;
-            font-weight: 500;
-            color: var(--t2);
-        }
-
-        .chips {
-            display: flex;
-            gap: 0.5rem;
-            flex-wrap: wrap;
-        }
-
-
-        .paso {
-            display: flex;
-            align-items: flex-start;
-            gap: 1rem;
-        }
-
-        .paso-n {
-            width: 30px;
-            height: 30px;
-            border-radius: 50%;
-            border: 2px solid var(--azul);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 0.8em;
-            font-weight: 700;
-            color: var(--azul);
-            flex-shrink: 0;
-            margin-top: 0.05em;
-        }
-
-        .paso-t {
-            font-size: 0.92em;
-            font-weight: 600;
-            margin-bottom: 0.2rem;
-            color: var(--t1);
-        }
-
-        .paso-d {
-            font-size: 0.8em;
-            color: var(--t2);
-            line-height: 1.55;
-        }
-
-
-        .nodo {
-            background: var(--bg2);
-            border: 1px solid var(--borde);
-            border-radius: 10px;
-            padding: 0.9rem 1rem;
-            text-align: center;
-            flex: 1;
-        }
-
-        .nodo-titulo {
-            font-size: 0.9em;
-            font-weight: 700;
-            color: var(--t1);
-            margin-bottom: 0.25rem;
-        }
-
-        .nodo-sub {
-            font-size: 0.72em;
-            color: var(--t2);
-            line-height: 1.5;
-        }
-
-        .nodo-hl-azul {
-            border-color: var(--azul);
-            box-shadow: 0 0 14px rgba(77, 124, 254, .2);
-        }
-
-        .nodo-hl-verde {
-            border-color: var(--verde);
-            box-shadow: 0 0 14px rgba(45, 184, 122, .2);
-        }
-
-        .nodo-hl-amar {
-            border-color: var(--amar);
-            box-shadow: 0 0 14px rgba(232, 160, 35, .2);
-        }
-
-        .nodo-hl-mora {
-            border-color: var(--mora);
-            box-shadow: 0 0 14px rgba(151, 117, 250, .2);
-        }
-
-
-        .fx {
-            font-size: 1.1em;
-            color: var(--t3);
-            flex-shrink: 0;
-            align-self: center;
-        }
-
-
-        .sql-table {
-            width: 100%;
-            border-collapse: collapse;
-            font-size: 0.8em;
-        }
-
-        .sql-table th {
-            color: var(--t3);
-            font-size: 0.82em;
-            text-transform: uppercase;
-            letter-spacing: 0.07em;
-            padding: 0.45rem 0.75rem;
-            border-bottom: 1px solid var(--borde);
-            text-align: left;
-        }
-
-        .sql-table td {
-            padding: 0.48rem 0.75rem;
-            border-bottom: 1px solid rgba(37, 44, 58, .7);
-            color: var(--t2);
-        }
-
-        .sql-table td strong {
-            color: var(--t1);
-        }
-
-
-        .num-big {
-            font-family: 'DM Serif Display', serif;
-            font-size: 3em;
-            font-weight: 400;
-            line-height: 1;
-            color: var(--t1);
-        }
-
-
-        .rol-card {
-            border-radius: 10px;
-            padding: 1.5rem 1.2rem;
-            text-align: center;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 0.7rem;
-        }
-
-        .rol-letra {
-            font-family: 'DM Serif Display', serif;
-            font-size: 2.8em;
-            line-height: 1;
-        }
-
-        .rol-desc {
-            font-size: 0.78em;
-            color: var(--t2);
-            line-height: 1.55;
-        }
-
-
-        .cs {
-            text-align: center !important;
-            align-items: center !important;
-        }
-
-
-        .portada {
-            background: var(--bg) !important;
-            text-align: center !important;
-            align-items: center !important;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .logo {
-            font-family: 'DM Serif Display', serif !important;
-            font-size: 5.2em;
-            font-weight: 400;
-            letter-spacing: -0.02em;
-            line-height: 1;
-            color: var(--t1);
-        }
-
-        .logo em {
-            font-style: italic;
-            color: var(--azul2);
-        }
-    </style>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TicketPro — Presentación</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/reveal.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/theme/black.css">
+<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --azul:    #091426;
+    --acento:  #4fc3f7;
+    --acento2: #81d4fa;
+    --gris:    #94a3b8;
+    --blanco:  #f1f5f9;
+    --verde:   #4ade80;
+    --rojo:    #f87171;
+    --amarillo:#fbbf24;
+    --naranja: #fb923c;
+    --mora:    #c084fc;
+  }
+
+  .reveal {
+    font-family: 'Hanken Grotesk', sans-serif;
+    color: var(--blanco);
+  }
+  .reveal .slides { text-align: left; }
+  .reveal .slides section {
+    padding: 30px 50px;
+    box-sizing: border-box;
+  }
+  .reveal h1, .reveal h2, .reveal h3 {
+    font-family: 'Hanken Grotesk', sans-serif;
+    font-weight: 800;
+    color: #fff;
+    text-transform: none;
+    letter-spacing: -0.03em;
+  }
+  .reveal h1 { font-size: 2.6em; line-height: 1.1; }
+  .reveal h2 { font-size: 1.6em; line-height: 1.15; margin-bottom: 12px; }
+  .reveal h3 { font-size: 1em; color: var(--acento); font-weight: 700; margin-bottom: 8px; }
+  .reveal p  { font-size: 0.62em; line-height: 1.55; color: var(--gris); }
+  .reveal li { font-size: 0.6em; line-height: 1.5; color: var(--gris); }
+  .reveal strong { color: #fff; }
+  .reveal em { color: var(--acento2); font-style: normal; }
+  .reveal code {
+    font-family: 'JetBrains Mono', monospace;
+    background: rgba(255,255,255,0.07);
+    padding: 2px 7px;
+    border-radius: 5px;
+    font-size: 0.85em;
+    color: var(--acento);
+  }
+
+  /* PILLS */
+  .pill-row { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 14px; }
+  .pill {
+    background: rgba(79,195,247,0.1);
+    border: 1px solid rgba(79,195,247,0.25);
+    color: var(--acento);
+    padding: 6px 14px;
+    border-radius: 8px;
+    font-size: 0.5em;
+    font-weight: 600;
+  }
+
+  /* GRIDS */
+  .g2 { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-top: 16px; }
+  .g3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 14px; margin-top: 16px; }
+
+  /* CARDS */
+  .card {
+    background: rgba(255,255,255,0.035);
+    border: 1px solid rgba(255,255,255,0.07);
+    border-radius: 12px;
+    padding: 18px;
+    text-align: center;
+  }
+  .card .ico { font-size: 1.8em; margin-bottom: 6px; }
+  .card h4   { color: #fff; font-size: 0.6em; font-weight: 700; margin: 0 0 4px 0; }
+  .card p    { font-size: 0.44em; margin: 0; text-align: center; }
+
+  /* FLOW */
+  .flow { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; margin-top: 16px; }
+  .fbox {
+    background: rgba(79,195,247,0.1);
+    border: 1px solid rgba(79,195,247,0.25);
+    padding: 10px 16px;
+    border-radius: 8px;
+    font-size: 0.52em;
+    font-weight: 700;
+    color: var(--acento);
+    white-space: nowrap;
+  }
+  .fbox.hi  { background: var(--acento); color: var(--azul); }
+  .fbox.grn { background: rgba(74,222,128,0.12); border-color: rgba(74,222,128,0.3); color: var(--verde); }
+  .fbox.amar{ background: rgba(251,191,36,0.12); border-color: rgba(251,191,36,0.3); color: var(--amarillo); }
+  .fbox.mora{ background: rgba(192,132,252,0.12); border-color: rgba(192,132,252,0.3); color: var(--mora); }
+  .fa { color: var(--gris); font-size: 1em; }
+
+  /* TABLE */
+  .tbl { width: 100%; border-collapse: collapse; margin-top: 14px; font-size: 0.5em; }
+  .tbl th {
+    text-align: left; color: var(--acento); font-weight: 700;
+    padding: 8px 12px; border-bottom: 1px solid rgba(255,255,255,0.1);
+  }
+  .tbl td {
+    padding: 7px 12px; color: var(--gris);
+    border-bottom: 1px solid rgba(255,255,255,0.04);
+  }
+  .tbl td:first-child { color: #fff; font-weight: 600; }
+
+  /* ROLES */
+  .rol-card {
+    border-radius: 12px;
+    padding: 20px 14px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+  }
+  .rol-letra {
+    font-size: 2.8em;
+    font-weight: 900;
+    line-height: 1;
+  }
+  .rol-desc { font-size: 0.44em; color: var(--gris); line-height: 1.5; }
+
+  /* CENTRADO */
+  .centro { text-align: center; }
+  .centro h1, .centro h2, .centro p { text-align: center; }
+
+  /* BIGNUM */
+  .bignum { font-size: 2.8em; font-weight: 900; color: var(--acento); line-height: 1; }
+  .biglabel { font-size: 0.44em; color: var(--gris); margin-top: 4px; }
+
+  /* CHECK LIST */
+  ul.ck { list-style: none; padding: 0; margin: 0; }
+  ul.ck li { padding: 4px 0; font-size: 0.55em; }
+  ul.ck li::before { content: "✓ "; color: var(--verde); font-weight: 800; margin-right: 4px; }
+
+  /* QUOTE */
+  .quote {
+    border-left: 3px solid var(--acento);
+    padding: 12px 20px;
+    margin: 14px 0;
+    background: rgba(79,195,247,0.05);
+    border-radius: 0 8px 8px 0;
+    font-size: 0.6em;
+    color: var(--blanco);
+  }
+
+  .reveal .slide-number {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: rgba(148,163,184,0.5);
+  }
+  .reveal .progress span { background: var(--acento); }
+</style>
 </head>
-
 <body>
-    <div class="reveal">
-        <div class="slides">
-
-
-            <!-- ══════════════════════════════════════════════ -->
-            <!--  1  PORTADA                                   -->
-            <!-- ══════════════════════════════════════════════ -->
-            <section class="portada">
-                <div
-                    style="position:relative;z-index:1;display:flex;flex-direction:column;align-items:center;gap:1.5rem;padding:0 3rem;">
-                    <span class="tag t-azul" style="font-size:0.62em;padding:0.3em 0.9em;">Proyecto Final &mdash;
-                        1.&ordm; DAW &mdash; 2025/2026</span>
-
-                    <h1 class="logo">Ticket<em>Pro</em></h1>
-
-                    <p class="sub" style="max-width:540px;text-align:center;font-size:0.85em;">
-                        Plataforma API REST para la gestion de incidencias tecnicas
-                    </p>
-
-                    <div class="chips" style="justify-content:center;margin-top:0.3rem;">
-                        <span class="chip">Java 17</span>
-                        <span class="chip">Spring Boot 4</span>
-                        <span class="chip">MySQL 8</span>
-                        <span class="chip">Docker</span>
-                        <span class="chip">BCrypt</span>
-                        <span class="chip">Fetch API</span>
-                    </div>
-
-                    <p style="font-size:0.7em;color:var(--t3);margin-top:0.8rem;">
-                        <strong style="color:var(--t2);">Pablo Barreales Ferrandis</strong>
-                    </p>
-                </div>
-            </section>
-
-
-            <!-- ══════════════════════════════════════════════ -->
-            <!--  2  EL PROBLEMA                              -->
-            <!-- ══════════════════════════════════════════════ -->
-            <section class="cs">
-                <div
-                    style="display:flex;flex-direction:column;align-items:center;gap:1.8rem;max-width:860px;width:100%;">
-                    <div>
-                        <div class="eyebrow" style="text-align:center;">El problema</div>
-                        <h2 style="text-align:center;">El soporte tecnico sin TicketPro</h2>
-                        <div class="sep" style="margin:0.7rem auto 0;"></div>
-                    </div>
-
-                    <div class="g3" style="width:100%;">
-                        <div class="card card-rojo fragment" style="text-align:center;padding:1.5rem 1rem;">
-                            <div style="font-size:0.7em;font-weight:700;color:var(--rojo);margin-bottom:0.5rem;">Sin
-                                trazabilidad</div>
-                            <p class="sub-sm">Llamadas, correos y WhatsApp mezclados. Nadie sabe que esta abierto.</p>
-                        </div>
-                        <div class="card card-amar fragment" style="text-align:center;padding:1.5rem 1rem;">
-                            <div style="font-size:0.7em;font-weight:700;color:var(--amar);margin-bottom:0.5rem;">Sin
-                                prioridades</div>
-                            <p class="sub-sm">El tecnico trabaja sobre la memoria. Las urgencias se mezclan.</p>
-                        </div>
-                        <div class="card card-mora fragment" style="text-align:center;padding:1.5rem 1rem;">
-                            <div style="font-size:0.7em;font-weight:700;color:var(--mora);margin-bottom:0.5rem;">Sin
-                                historial</div>
-                            <p class="sub-sm">Cuando el tecnico se va, el conocimiento desaparece con el.</p>
-                        </div>
-                    </div>
-
-                    <p class="nota fragment" style="text-align:left;max-width:620px;">
-                        TicketPro convierte ese caos en un proceso estructurado con roles, estados y persistencia en
-                        base de datos.
-                    </p>
-                </div>
-            </section>
-
-
-            <!-- ══════════════════════════════════════════════ -->
-            <!--  3  LOS 3 ROLES                              -->
-            <!-- ══════════════════════════════════════════════ -->
-            <section class="cs">
-                <div style="display:flex;flex-direction:column;align-items:center;gap:1.8rem;width:100%;">
-                    <div>
-                        <div class="eyebrow" style="text-align:center;">Arquitectura de usuarios</div>
-                        <h2 style="text-align:center;">Tres roles, un solo dashboard</h2>
-                        <div class="sep" style="margin:0.7rem auto 0;"></div>
-                    </div>
-
-                    <div class="g3" style="max-width:860px;width:100%;">
-                        <div class="rol-card fragment"
-                            style="background:rgba(77,124,254,.07);border:1px solid rgba(77,124,254,.2);">
-                            <div class="rol-letra" style="color:var(--azul2);">U</div>
-                            <span class="pill p-azul" style="font-size:0.68em;">USUARIO</span>
-                            <p class="rol-desc">Abre tickets desde el navegador. Ve solo sus propias incidencias.</p>
-                        </div>
-                        <div class="rol-card fragment"
-                            style="background:rgba(45,184,122,.07);border:1px solid rgba(45,184,122,.2);">
-                            <div class="rol-letra" style="color:var(--verde2);">I</div>
-                            <span class="pill p-verde" style="font-size:0.68em;">INFORMATICO</span>
-                            <p class="rol-desc">Ve todos los tickets sin asignar, se los adjudica y los actualiza.</p>
-                        </div>
-                        <div class="rol-card fragment"
-                            style="background:rgba(232,160,35,.07);border:1px solid rgba(232,160,35,.2);">
-                            <div class="rol-letra" style="color:var(--amar);">A</div>
-                            <span class="pill p-amar" style="font-size:0.68em;">ADMIN</span>
-                            <p class="rol-desc">Monitoriza todo y cambia roles de usuario directamente en MySQL.</p>
-                        </div>
-                    </div>
-
-                    <p class="nota fragment" style="text-align:center;border-left:none;max-width:620px;">
-                        El mismo <span class="ci">dashboard.html</span> se adapta con <span
-                            class="ci">rol.toUpperCase()</span> en JavaScript &mdash; sin rutas separadas.
-                    </p>
-                </div>
-            </section>
-
-
-
-            <section>
-                <div style="display:flex;flex-direction:column;gap:1.7rem;width:100%;">
-                    <div>
-                        <div class="eyebrow">Arquitectura general</div>
-                        <h2>El viaje completo de los datos</h2>
-                        <div class="sep"></div>
-                    </div>
-
-                    <div style="display:flex;align-items:stretch;gap:0.55rem;width:100%;">
-                        <div class="nodo nodo-hl-azul">
-                            <div class="nodo-titulo" style="color:var(--azul2);">Navegador</div>
-                            <div class="nodo-sub">dashboard.html<br>dashboard.js<br>Fetch API</div>
-                        </div>
-                        <div class="fx">&harr;</div>
-                        <div class="nodo nodo-hl-verde">
-                            <div class="nodo-titulo" style="color:var(--verde2);">Controlador</div>
-                            <div class="nodo-sub">@RestController<br>AuthControlador<br>IncidenciaControlador</div>
-                        </div>
-                        <div class="fx">&harr;</div>
-                        <div class="nodo nodo-hl-verde">
-                            <div class="nodo-titulo" style="color:var(--verde);">Servicio</div>
-                            <div class="nodo-sub">AuthServicio<br>BCrypt<br>Logica de negocio</div>
-                        </div>
-                        <div class="fx">&harr;</div>
-                        <div class="nodo nodo-hl-amar">
-                            <div class="nodo-titulo" style="color:var(--amar);">Repositorio</div>
-                            <div class="nodo-sub">JpaRepository<br>Queries derivadas<br>Hibernate ORM</div>
-                        </div>
-                        <div class="fx">&harr;</div>
-                        <div class="nodo nodo-hl-mora">
-                            <div class="nodo-titulo" style="color:var(--mora);">MySQL</div>
-                            <div class="nodo-sub">usuarios<br>incidencias<br>categorias</div>
-                        </div>
-                    </div>
-
-                    <div
-                        style="display:flex;gap:1rem;font-size:0.62em;color:var(--t3);flex-wrap:wrap;align-items:center;">
-                        <span style="font-family:'JetBrains Mono',monospace;color:var(--azul2);">HTTP JSON</span>
-                        <span style="color:var(--borde);">&#8729;&#8729;&#8729;</span>
-                        <span style="font-family:'JetBrains Mono',monospace;color:var(--verde2);">@RequestBody /
-                            ResponseEntity</span>
-                        <span style="color:var(--borde);">&#8729;&#8729;&#8729;</span>
-                        <span style="font-family:'JetBrains Mono',monospace;color:var(--verde);">Logica + BCrypt</span>
-                        <span style="color:var(--borde);">&#8729;&#8729;&#8729;</span>
-                        <span style="font-family:'JetBrains Mono',monospace;color:var(--amar);">SQL via Hibernate</span>
-                        <span style="color:var(--borde);">&#8729;&#8729;&#8729;</span>
-                        <span style="font-family:'JetBrains Mono',monospace;color:var(--mora);">InnoDB puerto
-                            3306</span>
-                    </div>
-
-                    <p class="nota">
-                        El frontend es HTML estatico. Nunca habla directamente con MySQL. Todo pasa por la API REST.
-                        Thymeleaf solo sirve las vistas de login y registro como HTML inicial.
-                    </p>
-                </div>
-            </section>
-
-
-            <!-- ══════════════════════════════════════════════ -->
-            <!--  5  FLUJO LOGIN                              -->
-            <!-- ══════════════════════════════════════════════ -->
-            <section>
-                <div style="display:flex;flex-direction:column;gap:1.5rem;width:100%;">
-                    <div>
-                        <div class="eyebrow">Flujo detallado &mdash; Login</div>
-                        <h2>De &ldquo;Entrar&rdquo; a sessionStorage</h2>
-                        <div class="sep"></div>
-                    </div>
-
-                    <div class="g2" style="gap:1.3rem;align-items:start;">
-                        <div style="display:flex;flex-direction:column;gap:0.9rem;">
-                            <div class="paso fragment">
-                                <div class="paso-n">1</div>
-                                <div>
-                                    <div class="paso-t">fetch() desde dashboard.js</div>
-                                    <div class="paso-d"><span class="ci">POST /api/auth/login</span> con <span
-                                            class="ci">{ email, password }</span> en el body JSON. Sin recargar la
-                                        pagina.</div>
-                                </div>
-                            </div>
-                            <div class="paso fragment">
-                                <div class="paso-n">2</div>
-                                <div>
-                                    <div class="paso-t">AuthControlador recibe el JSON</div>
-                                    <div class="paso-d"><span class="ci">@RequestBody LoginRequest</span> deserializa el
-                                        JSON y delega al <span class="ci">AuthServicio</span>.</div>
-                                </div>
-                            </div>
-                            <div class="paso fragment">
-                                <div class="paso-n">3</div>
-                                <div>
-                                    <div class="paso-t">BCrypt verifica la contrasena</div>
-                                    <div class="paso-d"><span class="ci">encoder.matches(rawPassword, hashMySQL)</span>.
-                                        La contrasena nunca se guarda en texto plano.</div>
-                                </div>
-                            </div>
-                            <div class="paso fragment">
-                                <div class="paso-n">4</div>
-                                <div>
-                                    <div class="paso-t">Respuesta JSON y sessionStorage</div>
-                                    <div class="paso-d">El servidor devuelve <span class="ci">{ usuarioId, nombre, rol
-                                            }</span>. El JS lo guarda en <span class="ci">sessionStorage</span> y
-                                        redirige al dashboard.</div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <pre class="fragment"><code class="language-java">// AuthControlador.java
-@PostMapping("/api/auth/login")
-public ResponseEntity&lt;?&gt; login(
-        @RequestBody LoginRequest req) {
-    try {
-        Usuario u = authServicio
-            .autenticarUsuario(req);
-
-        Map&lt;String,String&gt; json = new HashMap&lt;&gt;();
-        json.put("usuarioId", String.valueOf(u.getId()));
-        json.put("nombre",    u.getNombre());
-        json.put("rol",       u.getRol());
-
-        return ResponseEntity.ok(json);
-
-    } catch (RuntimeException e) {
-        if ("ERR_NOT_FOUND".equals(e.getMessage()))
-            return ResponseEntity.status(401)
-                .body("Usuario no encontrado.");
-        if ("ERR_BAD_PASSWORD".equals(e.getMessage()))
-            return ResponseEntity.status(401)
-                .body("Contrasena incorrecta.");
-        return ResponseEntity.status(500)
-                .body("Error interno.");
-    }
-}</code></pre>
-                    </div>
-                </div>
-            </section>
-
-
-
-            <section>
-                <div style="display:flex;flex-direction:column;gap:1.5rem;width:100%;">
-                    <div>
-                        <div class="eyebrow">Flujo detallado &mdash; Crear incidencia</div>
-                        <h2>De &ldquo;Enviar&rdquo; al registro en MySQL</h2>
-                        <div class="sep"></div>
-                    </div>
-
-                    <div class="g2" style="gap:1.3rem;align-items:start;">
-                        <pre class="fragment"><code class="language-javascript">// dashboard.js — formulario de ticket
-document.getElementById("formTicket")
-  .addEventListener("submit", async (e) => {
-    e.preventDefault();
-
-    const nuevoTicket = {
-        titulo:      document.getElementById("tituloTicket").value,
-        descripcion: document.getElementById("descTicket").value,
-        prioridad:   document.getElementById("prioridadTicket").value,
-        clienteId:   sessionStorage.getItem("usuarioId")
-    };
-
-    const res = await fetch('/api/incidencias', {
-        method:  'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body:    JSON.stringify(nuevoTicket)
-    });
-
-    if (res.ok) cargarTicketsCliente(idUsuario);
-});</code></pre>
-
-                        <div style="display:flex;flex-direction:column;gap:0.9rem;">
-                            <div class="paso fragment">
-                                <div class="paso-n">1</div>
-                                <div>
-                                    <div class="paso-t">El formulario construye el JSON</div>
-                                    <div class="paso-d">Adjunta el <span class="ci">clienteId</span> sacado del <span
-                                            class="ci">sessionStorage</span>. El cliente no puede falsificar su
-                                        identidad.</div>
-                                </div>
-                            </div>
-                            <div class="paso fragment">
-                                <div class="paso-n">2</div>
-                                <div>
-                                    <div class="paso-t">IncidenciaControlador recibe el POST</div>
-                                    <div class="paso-d"><span class="ci">@RequestBody Incidencia</span>. El servidor
-                                        fija <span class="ci">estado = "Abierto"</span> y <span class="ci">fechaCreacion
-                                            = now()</span>. El frontend no puede tocar esos campos.</div>
-                                </div>
-                            </div>
-                            <div class="paso fragment">
-                                <div class="paso-n">3</div>
-                                <div>
-                                    <div class="paso-t">JPA persiste en MySQL</div>
-                                    <div class="paso-d"><span
-                                            class="ci">incidenciaRepositorio.save(nuevaIncidencia)</span>. Hibernate
-                                        genera el <span class="ci">INSERT INTO incidencias ...</span>. Vuelta: el objeto
-                                        con el <span class="ci">id</span> asignado.</div>
-                                </div>
-                            </div>
-                            <div class="paso fragment">
-                                <div class="paso-n">4</div>
-                                <div>
-                                    <div class="paso-t">Ciclo de vida del ticket</div>
-                                    <div class="paso-d">
-                                        <span class="pill p-azul">Abierto</span>
-                                        <span style="color:var(--t3);">&nbsp;&rarr;&nbsp;</span>
-                                        <span class="pill p-amar">En Progreso</span>
-                                        <span style="color:var(--t3);">&nbsp;&rarr;&nbsp;</span>
-                                        <span class="pill p-verde">Resuelto</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-
-
-            <section>
-                <div style="display:flex;flex-direction:column;gap:1.5rem;width:100%;">
-                    <div>
-                        <div class="eyebrow">Base de datos</div>
-                        <h2>Diseno relacional &mdash; <span class="ci" style="font-size:0.65em;">ticketpro.sql</span>
-                        </h2>
-                        <div class="sep"></div>
-                    </div>
-
-                    <div class="g3" style="align-items:start;gap:1rem;">
-                        <div class="card card-azul fragment" style="padding:1rem 1.15rem;">
-                            <div
-                                style="font-size:0.65em;font-weight:600;color:var(--azul2);margin-bottom:0.6rem;text-transform:uppercase;letter-spacing:0.08em;">
-                                tabla: usuarios</div>
-                            <table class="sql-table">
-                                <thead>
-                                    <tr>
-                                        <th>Campo</th>
-                                        <th>Tipo</th>
-                                        <th>Nota</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <td><strong>id</strong></td>
-                                        <td>INT</td>
-                                        <td>PK &middot; AUTO</td>
-                                    </tr>
-                                    <tr>
-                                        <td>nombre</td>
-                                        <td>VARCHAR 100</td>
-                                        <td></td>
-                                    </tr>
-                                    <tr>
-                                        <td>email</td>
-                                        <td>VARCHAR 100</td>
-                                        <td>UNIQUE</td>
-                                    </tr>
-                                    <tr>
-                                        <td>password</td>
-                                        <td>VARCHAR 255</td>
-                                        <td>BCrypt</td>
-                                    </tr>
-                                    <tr>
-                                        <td>rol</td>
-                                        <td>VARCHAR 20</td>
-                                        <td>default 'cliente'</td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-
-                        <div class="card card-verde fragment" style="padding:1rem 1.15rem;">
-                            <div
-                                style="font-size:0.65em;font-weight:600;color:var(--verde2);margin-bottom:0.6rem;text-transform:uppercase;letter-spacing:0.08em;">
-                                tabla: incidencias</div>
-                            <table class="sql-table">
-                                <thead>
-                                    <tr>
-                                        <th>Campo</th>
-                                        <th>FK / Regla</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <td><strong>id</strong></td>
-                                        <td>PK &middot; AUTO</td>
-                                    </tr>
-                                    <tr>
-                                        <td>titulo / descripcion</td>
-                                        <td>NOT NULL</td>
-                                    </tr>
-                                    <tr>
-                                        <td>estado</td>
-                                        <td>default 'Pendiente'</td>
-                                    </tr>
-                                    <tr>
-                                        <td>fecha_creacion</td>
-                                        <td>TIMESTAMP &middot; now()</td>
-                                    </tr>
-                                    <tr>
-                                        <td>cliente_id</td>
-                                        <td>&rarr; usuarios &middot; CASCADE</td>
-                                    </tr>
-                                    <tr>
-                                        <td>informatico_id</td>
-                                        <td>&rarr; usuarios &middot; SET NULL</td>
-                                    </tr>
-                                    <tr>
-                                        <td>categoria_id</td>
-                                        <td>&rarr; categorias &middot; SET NULL</td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-
-                        <div style="display:flex;flex-direction:column;gap:0.9rem;">
-                            <div class="card card-amar fragment" style="padding:1rem 1.15rem;">
-                                <div
-                                    style="font-size:0.65em;font-weight:600;color:var(--amar);margin-bottom:0.4rem;text-transform:uppercase;letter-spacing:0.08em;">
-                                    tabla: categorias</div>
-                                <p class="sub-sm" style="font-size:0.7em;">id (PK) + nombre. Simple, extensible.</p>
-                            </div>
-                            <div class="card card-mora fragment" style="padding:1rem 1.15rem;">
-                                <div
-                                    style="font-size:0.65em;font-weight:600;color:var(--mora);margin-bottom:0.4rem;text-transform:uppercase;letter-spacing:0.08em;">
-                                    Datos semilla</div>
-                                <p class="sub-sm" style="font-size:0.7em;">
-                                    Admin y tecnico insertados con hash BCrypt ya generado.<br>
-                                    Contrasena en texto plano: <span class="ci">1234</span>
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-
-
-            <section>
-                <div style="display:flex;flex-direction:column;gap:1.4rem;width:100%;">
-                    <div>
-                        <div class="eyebrow">Codigo real del proyecto</div>
-                        <h2>ticketpro.sql</h2>
-                        <div class="sep"></div>
-                    </div>
-
-                    <pre><code class="language-sql">CREATE DATABASE IF NOT EXISTS ticketpro;
-USE ticketpro;
-
--- 1. USUARIOS (email unico, contrasena siempre hasheada)
-CREATE TABLE IF NOT EXISTS usuarios (
-  id       INT NOT NULL AUTO_INCREMENT,
-  nombre   VARCHAR(100) COLLATE utf8mb4_unicode_ci NOT NULL,
-  email    VARCHAR(100) COLLATE utf8mb4_unicode_ci NOT NULL,
-  password VARCHAR(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  rol      VARCHAR(20)  COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'cliente',
-  PRIMARY KEY (id),
-  UNIQUE KEY email (email)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
--- 2. INCIDENCIAS (tres FK, dos politicas de borrado distintas)
-CREATE TABLE IF NOT EXISTS incidencias (
-  id             INT NOT NULL AUTO_INCREMENT,
-  titulo         VARCHAR(100) NOT NULL,
-  descripcion    TEXT         NOT NULL,
-  estado         VARCHAR(20)  NOT NULL DEFAULT 'Pendiente',
-  fecha_creacion TIMESTAMP    DEFAULT CURRENT_TIMESTAMP,
-  categoria_id   INT DEFAULT NULL,
-  cliente_id     INT DEFAULT NULL,
-  informatico_id INT DEFAULT NULL,
-  PRIMARY KEY (id),
-  CONSTRAINT incidencias_ibfk_1
-    FOREIGN KEY (categoria_id)   REFERENCES categorias (id) ON DELETE SET NULL,
-  CONSTRAINT incidencias_ibfk_2
-    FOREIGN KEY (cliente_id)     REFERENCES usuarios (id)   ON DELETE CASCADE,
-  CONSTRAINT incidencias_ibfk_3
-    FOREIGN KEY (informatico_id) REFERENCES usuarios (id)   ON DELETE SET NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
--- DATOS SEMILLA — hash BCrypt de '1234'
-INSERT INTO usuarios (nombre, email, password, rol) VALUES
-  ('Administrador',  'admin@ticketpro.com',
-   '$2a$10$YgQyc1/XGf9VuPCJ60.vv.w0CjOOzcYsdrq5jtj6J.Vf47Fzz5A2G', 'ADMIN');
-INSERT INTO usuarios (nombre, email, password, rol) VALUES
-  ('Tecnico Soporte','tecnico@ticketpro.com',
-   '$2a$10$G5Td4a.oY7Xp1KWhP019XeVeNkSjj5CS3aHwJgF/0KpUsIwITtnEi',  'INFORMATICO');</code></pre>
-
-                    <p class="nota">
-                        <strong style="color:var(--t1);">ON DELETE CASCADE</strong> en <span
-                            class="ci">cliente_id</span>: si se borra el usuario, sus tickets desaparecen.&nbsp;
-                        <strong style="color:var(--t1);">ON DELETE SET NULL</strong> en <span
-                            class="ci">informatico_id</span>: si se borra el tecnico, el ticket vuelve a la bolsa sin
-                        asignar.
-                    </p>
-                </div>
-            </section>
-
-
-
-            <section>
-                <div style="display:flex;flex-direction:column;gap:0.6rem;width:100%;">
-                    <div>
-                        <div class="eyebrow">Despliegue</div>
-                        <h2 style="font-size:1.4em;">Un comando para arrancar todo</h2>
-                        <div class="sep" style="margin:0.4rem 0 0.8rem;"></div>
-                    </div>
-
-                    <div class="g2" style="gap:0.9rem;align-items:start;">
-                        <pre style="font-size:0.78em;"><code class="language-yaml" style="font-size:0.75em;line-height:1.55;padding:0.7rem 1rem;max-height:320px;">version: '3.8'
-
-services:
-  base_datos:
-    image: mysql:8.0
-    container_name: contenedor_bd_ticketpro
-    restart: always
-    environment:
-      MYSQL_DATABASE:      ${MYSQL_DB_NAME}
-      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
-    ports:
-      - "3306:3306"
-    volumes:
-      - volumen_datos_mysql:/var/lib/mysql
-      - ./ticketpro.sql:/docker-entrypoint-initdb.d/01-ticketpro.sql
-
-  aplicacion_spring:
-    build: .
-    container_name: contenedor_app_ticketpro
-    restart: always
-    ports:
-      - "8080:8080"
-    environment:
-      DB_HOST:             base_datos
-      MYSQL_DB_NAME:       ${MYSQL_DB_NAME}
-      MYSQL_ROOT_USER:     ${MYSQL_ROOT_USER}
-      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
-    depends_on:
-      - base_datos
-
-volumes:
-  volumen_datos_mysql:</code></pre>
-
-                        <div style="display:flex;flex-direction:column;gap:0.55rem;">
-                            <div class="card card-verde fragment" style="padding:0.75rem 1rem;">
-                                <h3 style="font-size:0.72em;color:var(--verde2);margin-bottom:0.3rem;">Por que
-                                    ddl-auto=update</h3>
-                                <p class="sub-sm" style="font-size:0.63em;">Con <span class="ci">create</span> o <span
-                                        class="ci">create-drop</span> cada reinicio del contenedor borraria todas las
-                                    tablas. Con <span class="ci">update</span>, Hibernate solo aplica diferencias. Los
-                                    datos sobreviven siempre.</p>
-                            </div>
-                            <div class="card card-amar fragment" style="padding:0.75rem 1rem;">
-                                <h3 style="font-size:0.72em;color:var(--amar);margin-bottom:0.3rem;">Variables de
-                                    entorno</h3>
-                                <p class="sub-sm" style="font-size:0.63em;">Las credenciales viajan en el fichero <span
-                                        class="ci">.env</span> (no commiteado al repositorio). Spring Boot las lee como
-                                    <span class="ci">${DB_HOST}</span>, <span class="ci">${MYSQL_ROOT_PASSWORD}</span>.
-                                </p>
-                            </div>
-                            <div class="card card-mora fragment" style="padding:0.75rem 1rem;">
-                                <h3 style="font-size:0.72em;color:var(--mora);margin-bottom:0.3rem;">Volume persistente
-                                </h3>
-                                <p class="sub-sm" style="font-size:0.63em;"><span class="ci">volumen_datos_mysql</span>
-                                    asegura que los datos de MySQL sobreviven aunque se detenga o recree el contenedor
-                                    en AWS EC2. El script <span class="ci">01-ticketpro.sql</span> solo se ejecuta la
-                                    primera vez.</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-
-
-            <section>
-                <div style="display:flex;flex-direction:column;gap:1.4rem;width:100%;">
-                    <div>
-                        <div class="eyebrow">Operaciones en EC2</div>
-                        <h2>La cronica del despliegue en AWS</h2>
-                        <div class="sep"></div>
-                    </div>
-
-                    <div class="g2" style="gap:1.2rem;align-items:start;">
-                        <!-- Columna Izquierda -->
-                        <div style="display:flex;flex-direction:column;gap:0.8rem;">
-                            <div class="card card-azul fragment" style="padding:1rem;">
-                                <h3 style="font-size:0.8em;color:var(--azul2);margin-bottom:0.4rem;">Fase 1: Clonar y
-                                    Configurar</h3>
-                                <p class="sub-sm">Traje el código fresco y creé el archivo de variables sensibles a mano
-                                    (nunca se sube a Git):</p>
-                                <pre style="margin-top:0.5rem;box-shadow:none;"><code class="language-bash" style="padding:0.6rem;font-size:0.7em;">git clone &lt;URL_REPO&gt;
-cd ticketpro-daw
-nano .env # Inyectamos MYSQL_ROOT_PASSWORD, etc.</code></pre>
-                            </div>
-
-                            <div class="card card-rojo fragment" style="padding:1rem;">
-                                <h3 style="font-size:0.8em;color:var(--rojo);margin-bottom:0.4rem;">Fase 2: La Batalla
-                                    de Maven</h3>
-                                <p class="sub-sm">El ejecutable <span class="ci">./mvnw</span> falló porque la carpeta
-                                    oculta <span class="ci">.mvn</span> no viajó en Git. Me puse el traje de SysAdmin e
-                                    instalé el motor oficial:</p>
-                                <pre style="margin-top:0.5rem;box-shadow:none;"><code class="language-bash" style="padding:0.6rem;font-size:0.7em;">sudo apt update && sudo apt install maven -y
-mvn clean package -DskipTests</code></pre>
-                            </div>
-                        </div>
-
-
-                        <div style="display:flex;flex-direction:column;gap:0.8rem;">
-                            <div class="card card-verde fragment" style="padding:1rem;">
-                                <h3 style="font-size:0.8em;color:var(--verde2);margin-bottom:0.4rem;">Fase 3: Levantar
-                                    Contenedores</h3>
-                                <p class="sub-sm">Con el <span class="ci">.jar</span> recién fabricado (BUILD SUCCESS),
-                                    disparé la infraestructura forzando la reconstrucción:</p>
-                                <pre
-                                    style="margin-top:0.5rem;box-shadow:none;"><code class="language-bash" style="padding:0.6rem;font-size:0.7em;">docker compose up -d --build</code></pre>
-                                <p class="nota" style="margin-top:0.5rem;border-color:var(--verde);color:var(--t2);">En
-                                    este instante, MySQL nació y leyó <span class="ci">01-ticketpro.sql</span>
-                                    inyectando al admin y al técnico con BCrypt.</p>
-                            </div>
-
-                            <div class="card card-amar fragment"
-                                style="padding:1rem;display:flex;flex-direction:column;align-items:center;text-align:center;">
-                                <h3 style="font-size:0.8em;color:var(--amar);margin-bottom:0.4rem;">Fase 4: El Candado
-                                    Verde</h3>
-                                <p class="sub-sm">Configuración de Nginx y Certbot para habilitar HTTPS de forma segura.
-                                </p>
-                                <p style="font-size:0.7em;color:var(--t3);margin-top:0.5rem;">(Detallado en la siguiente
-                                    diapositiva &rarr;)</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-
-
-            <section>
-                <div style="display:flex;flex-direction:column;gap:1.4rem;width:100%;">
-                    <div>
-                        <div class="eyebrow">Seguridad en produccion</div>
-                        <h2>HTTPS con Let's Encrypt y Certbot</h2>
-                        <div class="sep"></div>
-                    </div>
-
-                    <div class="g2" style="gap:1.2rem;align-items:start;">
-                        <div style="display:flex;flex-direction:column;gap:0.85rem;">
-                            <div class="paso fragment">
-                                <div class="paso-n">1</div>
-                                <div>
-                                    <div class="paso-t">Instalar Certbot y su extension para Nginx</div>
-                                    <div class="paso-d">Via SSH a la maquina EC2 de Amazon, instalamos las herramientas
-                                        necesarias:</div>
-                                </div>
-                            </div>
-                            <pre class="fragment" style="margin-left:2.5rem;"><code class="language-bash">sudo apt update
-sudo apt install certbot python3-certbot-nginx -y</code></pre>
-
-                            <div class="paso fragment">
-                                <div class="paso-n">2</div>
-                                <div>
-                                    <div class="paso-t">El comando definitivo</div>
-                                    <div class="paso-d">Certbot habla con Let's Encrypt, demuestra que somos los duenos
-                                        del dominio, genera las claves criptograficas y modifica la configuracion de
-                                        Nginx para activar el puerto 443:</div>
-                                </div>
-                            </div>
-                            <pre class="fragment"
-                                style="margin-left:2.5rem;"><code class="language-bash">sudo certbot --nginx -d ticketpro.yatat.es</code></pre>
-
-                            <div class="paso fragment">
-                                <div class="paso-n">3</div>
-                                <div>
-                                    <div class="paso-t">Reiniciar Nginx para aplicar los cambios</div>
-                                    <div class="paso-d">Por si acaso, reiniciamos el servidor web del host para asegurar
-                                        el tiro:</div>
-                                </div>
-                            </div>
-                            <pre class="fragment"
-                                style="margin-left:2.5rem;"><code class="language-bash">sudo systemctl restart nginx</code></pre>
-                        </div>
-
-                        <div style="display:flex;flex-direction:column;gap:0.85rem;">
-                            <div class="card card-azul fragment">
-                                <h3 style="font-size:0.82em;color:var(--azul2);margin-bottom:0.5rem;">Que hace Certbot
-                                    al ejecutarse</h3>
-                                <ul style="list-style:none;display:flex;flex-direction:column;gap:0.45rem;padding:0;">
-                                    <li class="sub-sm" style="display:flex;gap:0.5rem;"><span
-                                            style="color:var(--azul);">&#8212;</span> Pide un correo para avisar si el
-                                        certificado caduca.</li>
-                                    <li class="sub-sm" style="display:flex;gap:0.5rem;"><span
-                                            style="color:var(--azul);">&#8212;</span> Solicita aceptar los terminos de
-                                        servicio de Let's Encrypt.</li>
-                                    <li class="sub-sm" style="display:flex;gap:0.5rem;"><span
-                                            style="color:var(--azul);">&#8212;</span> Pregunta si redirigir HTTP a
-                                        HTTPS. Respondimos <strong style="color:var(--t1);">SI</strong>: quien intente
-                                        entrar por <span class="ci">http://</span> es redirigido automaticamente a <span
-                                            class="ci">https://</span>.</li>
-                                </ul>
-                            </div>
-                            <div class="card card-verde fragment">
-                                <h3 style="font-size:0.82em;color:var(--verde2);margin-bottom:0.5rem;">Resultado</h3>
-                                <p class="sub-sm">La aplicacion queda accesible en <span
-                                        class="ci">https://ticketpro.yatat.es</span> con certificado valido firmado por
-                                    Let's Encrypt, renovacion automatica incluida, y todo el trafico HTTP redirigido a
-                                    HTTPS por Nginx.</p>
-                            </div>
-                            <div class="card card-amar fragment">
-                                <h3 style="font-size:0.82em;color:var(--amar);margin-bottom:0.5rem;">Por que Let's
-                                    Encrypt y no un certificado de pago</h3>
-                                <p class="sub-sm">Let's Encrypt es una CA publica gratuita reconocida por todos los
-                                    navegadores. Para un proyecto de produccion real, ofrece exactamente la misma
-                                    seguridad TLS que un certificado comercial.</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-
-
-            <section>
-                <div style="display:flex;flex-direction:column;gap:1.5rem;width:100%;">
-                    <div>
-                        <div class="eyebrow">Testing y Madurez</div>
-                        <h2>Gestion Inteligente de Errores (Fallback)</h2>
-                        <div class="sep"></div>
-                    </div>
-
-                    <div class="g2" style="gap:1.3rem;align-items:center;">
-                        <div style="display:flex;flex-direction:column;gap:0.9rem;">
-                            <p class="sub">El manejo de excepciones no depende solo del backend. Se diseno una vista
-                                <span class="ci">error.html</span> con redireccion adaptativa.</p>
-
-                            <div class="card card-rojo fragment" style="padding:1.2rem;">
-                                <h3 style="font-size:0.85em;color:var(--rojo);margin-bottom:0.5rem;">El problema
-                                    resuelto</h3>
-                                <p class="sub-sm">Normalmente, si un usuario entra a una ruta 404, el boton estatico de
-                                    "Volver" lo manda al Login, <strong>destruyendo su sesion actual</strong> y
-                                    rompiendo la experiencia de usuario (UX).</p>
-                            </div>
-
-                            <div class="card card-verde fragment" style="padding:1.2rem;">
-                                <h3 style="font-size:0.85em;color:var(--verde2);margin-bottom:0.5rem;">Enrutamiento
-                                    Inteligente</h3>
-                                <p class="sub-sm">Si se intenta acceder a una ruta inexistente (ej. <span
-                                        class="ci">/probando</span>), salta el error 404. Al hacer clic en "Volver", el
-                                    sistema evalúa: si hay sesión activa va al <strong>Dashboard</strong>; si no, al
-                                    <strong>Login</strong>.</p>
-                            </div>
-                        </div>
-
-                        <pre class="fragment"><code class="language-javascript">// error.html — Fallback dinamico UX
-document.getElementById('btnAcceso')
-  .addEventListener('click', function () {
-    
-    // El frontend verifica su propio estado
-    var id = sessionStorage.getItem('usuarioId');
-    
-    if (id) {
-        // La sesion esta viva
-        window.location.href = '/dashboard.html';
-    } else {
-        // No hay sesion o ha caducado
-        window.location.href = '/login';
-    }
-});</code></pre>
-                    </div>
-
-                    <p class="nota fragment" style="margin-top:0.5rem;text-align:center;border-left:none;">
-                        Esta resolucion demuestra que el sistema tiene una <strong style="color:var(--t1);">tolerancia a
-                            fallos robusta de extremo a extremo</strong>, protegiendo la sesion del usuario final en
-                        produccion.
-                    </p>
-                </div>
-            </section>
-
-
-
-            <section>
-                <div style="display:flex;flex-direction:column;gap:1.6rem;width:100%;">
-                    <div>
-                        <div class="eyebrow">Honestidad tecnica</div>
-                        <h2>Limitaciones conocidas &mdash; y el siguiente paso</h2>
-                        <div class="sep"></div>
-                    </div>
-
-                    <div class="g2" style="gap:1.2rem;">
-                        <div class="card card-rojo fragment">
-                            <h3 style="font-size:0.85em;color:var(--rojo);margin-bottom:0.65rem;">Fase 1 &mdash;
-                                Acotacion de alcance</h3>
-                            <p class="sub-sm" style="margin-bottom:0.5rem;">
-                                La API no tiene filtros globales de Spring Security. Un usuario que conozca la URL puede
-                                hacer peticiones sin token desde Postman.
-                            </p>
-                            <p class="sub-sm">
-                                <span class="ci">GET /api/usuarios</span> devuelve el hash BCrypt en el JSON.
-                                Irreversible, pero innecesario.
-                            </p>
-                        </div>
-                        <div class="card card-verde fragment">
-                            <h3 style="font-size:0.85em;color:var(--verde2);margin-bottom:0.65rem;">Fase 2 &mdash; Hoja
-                                de ruta</h3>
-                            <p class="sub-sm" style="margin-bottom:0.5rem;">
-                                <strong style="color:var(--t1);">JWT:</strong> Al hacer login el servidor emite un token
-                                firmado. Cada peticion lo envia en <span class="ci">Authorization: Bearer
-                                    &lt;token&gt;</span>. Sin token valido: <span class="ci">401</span> automatico.
-                            </p>
-                            <p class="sub-sm">
-                                <strong style="color:var(--t1);">Spring Security:</strong> Un <span
-                                    class="ci">OncePerRequestFilter</span> interceptara todas las rutas <span
-                                    class="ci">/api/**</span> antes de que lleguen al controlador.
-                            </p>
-                        </div>
-                    </div>
-
-                    <p class="nota fragment">
-                        La arquitectura REST + frontend desacoplado esta disenada para anadir estas capas sin
-                        refactorizar el nucleo. Es una decision de acotacion, no un olvido.
-                    </p>
-                </div>
-            </section>
-
-
-
-            <section class="cs">
-                <div style="display:flex;flex-direction:column;align-items:center;gap:1.9rem;width:100%;">
-                    <div style="text-align:center;">
-                        <h1 style="font-size:4em;">Ticket<em style="font-style:italic;color:var(--azul2);">Pro</em></h1>
-                        <p class="sub" style="margin-top:0.6rem;font-size:0.8em;">API REST de gestion de incidencias
-                            &mdash; Fase 1 desplegada en AWS</p>
-                    </div>
-
-                    <div style="display:flex;gap:3rem;text-align:center;" class="fragment">
-                        <div>
-                            <div class="num-big">3</div>
-                            <p class="sub-sm" style="margin-top:0.3rem;font-size:0.7em;">roles</p>
-                        </div>
-                        <div style="width:1px;background:var(--borde);"></div>
-                        <div>
-                            <div class="num-big">10</div>
-                            <p class="sub-sm" style="margin-top:0.3rem;font-size:0.7em;">endpoints</p>
-                        </div>
-                        <div style="width:1px;background:var(--borde);"></div>
-                        <div>
-                            <div class="num-big">1</div>
-                            <p class="sub-sm" style="margin-top:0.3rem;font-size:0.7em;">comando</p>
-                        </div>
-                        <div style="width:1px;background:var(--borde);"></div>
-                        <div>
-                            <div class="num-big">0</div>
-                            <p class="sub-sm" style="margin-top:0.3rem;font-size:0.7em;">frameworks frontend</p>
-                        </div>
-                    </div>
-
-                    <p style="font-size:0.72em;color:var(--t3);" class="fragment">
-                        <strong style="color:var(--t1);">Pablo Barreales Ferrandis</strong>
-                        &nbsp;&middot;&nbsp; 1.&ordm; DAW
-                        &nbsp;&middot;&nbsp; <span style="font-family:'JetBrains Mono',monospace;">ticketpro-daw</span>
-                    </p>
-                </div>
-            </section>
-
-
-        </div>
+<div class="reveal">
+<div class="slides">
+
+<!-- ══════════════════════════════════════════════════════ -->
+<!-- 1 · PORTADA                                          -->
+<!-- ══════════════════════════════════════════════════════ -->
+<section data-background="linear-gradient(135deg, #091426 0%, #152238 60%, #0d1c30 100%)">
+  <div class="centro">
+    <img src="lib/favicon.png" alt="TicketPro" style="width:80px;height:80px;border-radius:18px;margin-bottom:10px;">
+    <h1>TicketPro</h1>
+    <p style="color:var(--acento);font-size:0.7em;font-weight:600;margin-top:8px;">
+      Sistema de gestión de incidencias técnicas
+    </p>
+    <div class="pill-row" style="justify-content:center;margin-top:20px;">
+      <div class="pill">Java 17</div>
+      <div class="pill">Spring Boot</div>
+      <div class="pill">MySQL 8</div>
+      <div class="pill">Docker</div>
+      <div class="pill">Fetch API</div>
+      <div class="pill">BCrypt</div>
+    </div>
+    <p style="margin-top:28px;font-size:0.55em;color:var(--gris);">
+      <strong style="color:#fff;">Pablo Barreales Ferrandis</strong>
+      &nbsp;·&nbsp; 1.º DAW &nbsp;·&nbsp; 2025/2026
+    </p>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════ -->
+<!-- 2 · EL PROBLEMA                                      -->
+<!-- ══════════════════════════════════════════════════════ -->
+<section data-background-color="#091426">
+  <h2>El problema</h2>
+  <p style="font-size:0.65em;"><strong>El soporte técnico sin una herramienta es un caos</strong></p>
+
+  <div class="g3" style="margin-top:14px;">
+    <div class="card fragment">
+      <div class="ico">📞</div>
+      <h4>Sin trazabilidad</h4>
+      <p>Llamadas, emails y WhatsApp mezclados. Nadie sabe qué está abierto.</p>
+    </div>
+    <div class="card fragment">
+      <div class="ico">🔥</div>
+      <h4>Sin prioridades</h4>
+      <p>El técnico trabaja de memoria. Las urgencias se mezclan con lo trivial.</p>
+    </div>
+    <div class="card fragment">
+      <div class="ico">💨</div>
+      <h4>Sin historial</h4>
+      <p>Cuando el técnico se va, el conocimiento desaparece con él.</p>
+    </div>
+  </div>
+
+  <p class="fragment" style="text-align:center;color:var(--verde);font-weight:700;font-size:0.7em;margin-top:20px;">
+    ⚡ La solución: TicketPro
+  </p>
+</section>
+
+<!-- ══════════════════════════════════════════════════════ -->
+<!-- 3 · FUNCIONALIDADES                                  -->
+<!-- ══════════════════════════════════════════════════════ -->
+<section data-background-color="#091426">
+  <h2>Funcionalidades clave</h2>
+
+  <div class="g3" style="margin-top:8px;gap:10px;">
+    <div class="card fragment" style="padding:12px 10px;">
+      <div style="font-size:1.3em;margin-bottom:4px;">🎫</div>
+      <h4 style="font-size:0.55em;">Crear tickets</h4>
+      <p style="font-size:0.4em;">El usuario describe el problema y elige prioridad.</p>
+    </div>
+    <div class="card fragment" style="padding:12px 10px;">
+      <div style="font-size:1.3em;margin-bottom:4px;">🔧</div>
+      <h4 style="font-size:0.55em;">Gestionar incidencias</h4>
+      <p style="font-size:0.4em;">El informático las toma y actualiza el estado.</p>
+    </div>
+    <div class="card fragment" style="padding:12px 10px;">
+      <div style="font-size:1.3em;margin-bottom:4px;">🛡️</div>
+      <h4 style="font-size:0.55em;">Panel Admin</h4>
+      <p style="font-size:0.4em;">Gestiona usuarios y cambia roles en tiempo real.</p>
+    </div>
+    <div class="card fragment" style="padding:12px 10px;">
+      <div style="font-size:1.3em;margin-bottom:4px;">🔄</div>
+      <h4 style="font-size:0.55em;">Estados del ticket</h4>
+      <p style="font-size:0.4em;">Abierto → En Progreso → Resuelto.</p>
+    </div>
+    <div class="card fragment" style="padding:12px 10px;">
+      <div style="font-size:1.3em;margin-bottom:4px;">🔒</div>
+      <h4 style="font-size:0.55em;">Contraseñas seguras</h4>
+      <p style="font-size:0.4em;">BCrypt. Nunca en texto plano.</p>
+    </div>
+    <div class="card fragment" style="padding:12px 10px;">
+      <div style="font-size:1.3em;margin-bottom:4px;">🌐</div>
+      <h4 style="font-size:0.55em;">Desplegado en AWS</h4>
+      <p style="font-size:0.4em;">Un comando arranca todo. HTTPS incluido.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════ -->
+<!-- 4 · LOS 3 ROLES                                      -->
+<!-- ══════════════════════════════════════════════════════ -->
+<section data-background-color="#091426">
+  <h2>Tres roles, un solo dashboard</h2>
+  <p style="font-size:0.6em;">El mismo <code>dashboard.html</code> se adapta según el rol guardado en <code>sessionStorage</code></p>
+
+  <div class="g3" style="margin-top:18px;">
+    <div class="rol-card fragment" style="background:rgba(79,195,247,0.07);border:1px solid rgba(79,195,247,0.2);">
+      <div class="rol-letra" style="color:var(--acento);">U</div>
+      <div style="font-size:0.5em;font-weight:700;color:var(--acento);">USUARIO</div>
+      <p class="rol-desc">Abre tickets desde el navegador. Solo ve sus propias incidencias.</p>
+    </div>
+    <div class="rol-card fragment" style="background:rgba(74,222,128,0.07);border:1px solid rgba(74,222,128,0.2);">
+      <div class="rol-letra" style="color:var(--verde);">I</div>
+      <div style="font-size:0.5em;font-weight:700;color:var(--verde);">INFORMÁTICO</div>
+      <p class="rol-desc">Ve todos los tickets, los acepta y actualiza su estado.</p>
+    </div>
+    <div class="rol-card fragment" style="background:rgba(251,191,36,0.07);border:1px solid rgba(251,191,36,0.2);">
+      <div class="rol-letra" style="color:var(--amarillo);">A</div>
+      <div style="font-size:0.5em;font-weight:700;color:var(--amarillo);">ADMIN</div>
+      <p class="rol-desc">Monitoriza todo y puede cambiar el rol de cualquier usuario.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════ -->
+<!-- 5 · STACK TECNOLÓGICO                               -->
+<!-- ══════════════════════════════════════════════════════ -->
+<section data-background-color="#091426">
+  <h2>Stack tecnológico</h2>
+  <p><em>Tecnologías utilizadas en el proyecto</em></p>
+
+  <table class="tbl fragment">
+    <tr><th style="width:22%;">Capa</th><th style="width:32%;">Tecnología</th><th>Propósito</th></tr>
+    <tr><td>Backend</td><td>Java 17 + Spring Boot</td><td>API REST y lógica de negocio</td></tr>
+    <tr><td>Base de datos</td><td>JPA / Hibernate + MySQL 8</td><td>Persistencia y mapeo ORM</td></tr>
+    <tr><td>Seguridad</td><td>BCrypt</td><td>Cifrado de contraseñas</td></tr>
+    <tr><td>Frontend</td><td>HTML + CSS + Fetch API</td><td>Interfaz sin frameworks</td></tr>
+    <tr><td>Infraestructura</td><td>Docker Compose + AWS EC2</td><td>Despliegue reproducible</td></tr>
+    <tr><td>HTTPS</td><td>Nginx + Let's Encrypt</td><td>Cifrado en producción</td></tr>
+  </table>
+</section>
+
+<!-- ══════════════════════════════════════════════════════ -->
+<!-- 6a · DOCKER COMPOSE — servicio base_datos            -->
+<!-- ══════════════════════════════════════════════════════ -->
+<section data-background-color="#091426">
+  <h2 style="font-size:1.3em;">Docker Compose — Servicio 1/2</h2>
+  <p style="font-size:0.55em;"><em>Un solo comando levanta todo: <code>docker compose up -d --build</code></em></p>
+
+  <div style="border:1px solid rgba(192,132,252,0.3);background:rgba(192,132,252,0.05);border-radius:10px;padding:14px 18px;margin-top:10px;" class="fragment">
+    <p style="font-size:0.46em;font-weight:700;color:var(--mora);margin-bottom:6px;">🗄️ &nbsp;Servicio: <code style="color:var(--mora);">base_datos</code></p>
+    <ul style="list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:5px;">
+      <li style="font-size:0.44em;color:var(--gris);">→ Imagen oficial de <strong style="color:#fff;">MySQL 8</strong></li>
+      <li style="font-size:0.44em;color:var(--gris);">→ Al arrancar por primera vez lee <code>ticketpro.sql</code> e inserta los datos semilla (admin + técnico con BCrypt)</li>
+      <li style="font-size:0.44em;color:var(--gris);">→ Los datos sobreviven reinicios gracias al <strong style="color:#fff;">volumen Docker</strong> <code>volumen_datos_mysql</code></li>
+      <li style="font-size:0.44em;color:var(--amarillo);">→ <code style="color:var(--amarillo);">./ticketpro.sql:/docker-entrypoint-initdb.d/01-ticketpro.sql</code> — monta el SQL en la carpeta especial de MySQL: cualquier <code>.sql</code> ahí se ejecuta <strong style="color:#fff;">automáticamente al crear el contenedor</strong></li>
+    </ul>
+  </div>
+
+  <div class="fragment" style="margin-top:12px;">
+    <div class="flow">
+      <div class="fbox amar">📄 ticketpro.sql</div>
+      <span class="fa">→</span>
+      <div class="fbox mora">🗄️ MySQL :3306</div>
+      <span class="fa">→</span>
+      <div class="fbox" style="color:var(--verde);border-color:rgba(74,222,128,0.3);background:rgba(74,222,128,0.08);">💾 volumen persistente</div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════ -->
+<!-- 6b · DOCKER COMPOSE — servicio aplicacion_spring     -->
+<!-- ══════════════════════════════════════════════════════ -->
+<section data-background-color="#091426">
+  <h2 style="font-size:1.3em;">Docker Compose — Servicio 2/2</h2>
+  <p style="font-size:0.55em;"><em>Los dos servicios se comunican por red interna de Docker</em></p>
+
+  <div style="border:1px solid rgba(79,195,247,0.3);background:rgba(79,195,247,0.05);border-radius:10px;padding:14px 18px;margin-top:10px;" class="fragment">
+    <p style="font-size:0.46em;font-weight:700;color:var(--acento);margin-bottom:6px;">☕ &nbsp;Servicio: <code style="color:var(--acento);">aplicacion_spring</code></p>
+    <ul style="list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:5px;">
+      <li style="font-size:0.44em;color:var(--gris);">→ Construye el <strong style="color:#fff;">.jar</strong> con Maven y arranca Spring Boot en el puerto <code>8080</code></li>
+      <li style="font-size:0.44em;color:var(--gris);">→ Usa <code>depends_on: base_datos</code> — espera a que MySQL esté listo antes de arrancar</li>
+      <li style="font-size:0.44em;color:var(--gris);">→ Las credenciales van en <code>.env</code> (no se sube al repo). Spring Boot las inyecta como <strong style="color:#fff;">variables de entorno</strong></li>
+    </ul>
+  </div>
+
+  <div class="fragment" style="margin-top:12px;">
+    <div class="flow">
+      <div class="fbox amar">📄 .env</div>
+      <span class="fa">→</span>
+      <div class="fbox">☕ Spring Boot :8080</div>
+      <span class="fa">↔</span>
+      <div class="fbox mora">🗄️ base_datos</div>
+      <span class="fa">→</span>
+      <div class="fbox hi">🌐 Usuario final</div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════ -->
+<!-- 6 · ARQUITECTURA / FLUJO DE DATOS                   -->
+<!-- ══════════════════════════════════════════════════════ -->
+<section data-background-color="#091426">
+  <h2>Arquitectura — flujo de una petición</h2>
+  <p><em>Todo pasa por la API REST. El frontend nunca habla directamente con MySQL.</em></p>
+
+  <div style="display:flex;flex-direction:column;gap:10px;margin-top:18px;">
+
+    <div class="fragment" style="display:flex;align-items:center;gap:8px;">
+      <div class="fbox hi">🌐 Navegador</div>
+      <span class="fa">→</span>
+      <div style="font-size:0.5em;color:var(--gris);">fetch() POST /api/auth/login  <code>{ email, password }</code></div>
     </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/reveal.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/plugin/highlight/highlight.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/plugin/notes/notes.js"></script>
+    <div class="fragment" style="display:flex;align-items:center;gap:8px;">
+      <div class="fbox grn">⚙️ @RestController</div>
+      <span class="fa">→</span>
+      <div style="font-size:0.5em;color:var(--gris);">Deserializa el JSON con @RequestBody y delega al servicio</div>
+    </div>
 
-    <script>
-        Reveal.initialize({
-            hash: true,
-            slideNumber: 'c/t',
-            progress: true,
-            controls: true,
-            controlsTutorial: false,
-            transition: 'slide',
-            transitionSpeed: 'fast',
-            backgroundTransition: 'fade',
-            center: false,
-            margin: 0.07,
-            width: 920,
-            height: 588,
-            plugins: [RevealHighlight, RevealNotes]
-        });
-    </script>
+    <div class="fragment" style="display:flex;align-items:center;gap:8px;">
+      <div class="fbox" style="background:rgba(251,191,36,0.12);border-color:rgba(251,191,36,0.3);color:var(--amarillo);">🔒 BCrypt</div>
+      <span class="fa">→</span>
+      <div style="font-size:0.5em;color:var(--gris);">Compara la contraseña con el hash de MySQL</div>
+    </div>
+
+    <div class="fragment" style="display:flex;align-items:center;gap:8px;">
+      <div class="fbox mora">🗄️ JpaRepository</div>
+      <span class="fa">→</span>
+      <div style="font-size:0.5em;color:var(--gris);">Hibernate genera el SQL. Devuelve el objeto Usuario.</div>
+    </div>
+
+    <div class="fragment" style="display:flex;align-items:center;gap:8px;">
+      <div class="fbox hi">📦 ResponseEntity</div>
+      <span class="fa">→</span>
+      <div style="font-size:0.5em;color:var(--gris);">El servidor responde <code>{ usuarioId, nombre, rol }</code>. JS lo guarda en sessionStorage.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════ -->
+<!-- 7 · BASE DE DATOS                                    -->
+<!-- ══════════════════════════════════════════════════════ -->
+<section data-background-color="#091426">
+  <h2>Base de datos</h2>
+  <p><em>Dos tablas principales con tres claves foráneas</em></p>
+
+  <div class="g2" style="margin-top:14px;">
+    <div class="fragment">
+      <h3 style="color:var(--acento);font-size:0.72em;margin-bottom:8px;">📋 tabla: usuarios</h3>
+      <table class="tbl">
+        <tr><th>Campo</th><th>Tipo</th><th>Nota</th></tr>
+        <tr><td>id</td><td>INT</td><td>PK · AUTO</td></tr>
+        <tr><td>nombre</td><td>VARCHAR 100</td><td></td></tr>
+        <tr><td>email</td><td>VARCHAR 100</td><td>UNIQUE</td></tr>
+        <tr><td>password</td><td>VARCHAR 255</td><td>BCrypt</td></tr>
+        <tr><td>rol</td><td>VARCHAR 20</td><td>USUARIO / INFORMATICO / ADMIN</td></tr>
+      </table>
+    </div>
+    <div class="fragment">
+      <h3 style="color:var(--verde);font-size:0.72em;margin-bottom:8px;">🎫 tabla: incidencias</h3>
+      <table class="tbl">
+        <tr><th>Campo</th><th>Regla</th></tr>
+        <tr><td>id</td><td>PK · AUTO</td></tr>
+        <tr><td>titulo / descripcion</td><td>NOT NULL</td></tr>
+        <tr><td>estado</td><td>default 'Abierto'</td></tr>
+        <tr><td>prioridad</td><td>Baja / Media / Alta</td></tr>
+        <tr><td>cliente_id</td><td>→ usuarios · CASCADE</td></tr>
+        <tr><td>informatico_id</td><td>→ usuarios · SET NULL</td></tr>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════ -->
+<!-- 7b · MODELO RELACIONAL (imagen)                      -->
+<!-- ══════════════════════════════════════════════════════ -->
+<section data-background-color="#091426">
+  <h2 style="font-size:1.35em;">Modelo relacional</h2>
+  <p style="font-size:0.55em;"><em>3 tablas · 3 claves foráneas</em></p>
+  <div style="margin-top:10px;text-align:center;">
+    <img src="lib/modelo-relacional.png" alt="Modelo relacional TicketPro"
+         style="max-width:88%;max-height:420px;border-radius:10px;border:1px solid rgba(255,255,255,0.08);box-shadow:0 4px 24px rgba(0,0,0,0.4);">
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════ -->
+<!-- 8 · DEMO                                             -->
+<!-- ══════════════════════════════════════════════════════ -->
+<section data-background="linear-gradient(135deg, #0d1c30 0%, #091426 100%)">
+  <div class="centro">
+    <h1 style="font-size:2.4em;">Demo en vivo</h1>
+    <p style="color:var(--acento);font-size:0.65em;font-weight:600;margin-top:8px;">
+      Momento de la verdad
+    </p>
+    <div class="pill-row fragment" style="justify-content:center;margin-top:24px;">
+      <div class="pill">Registro</div>
+      <div class="pill">Login</div>
+      <div class="pill">Crear ticket</div>
+      <div class="pill">Gestión informático</div>
+      <div class="pill">Panel Admin</div>
+      <div class="pill">HTTPS en AWS</div>
+    </div>
+  </div>
+</section>
+
+
+
+<!-- ══════════════════════════════════════════════════════ -->
+<!-- 10 · CIERRE                                          -->
+<!-- ══════════════════════════════════════════════════════ -->
+<section data-background="linear-gradient(135deg, #091426 0%, #152238 60%, #0d1c30 100%)">
+  <div class="centro">
+    <img src="lib/favicon.png" alt="TicketPro" style="width:72px;height:72px;border-radius:16px;margin-bottom:10px;">
+    <h1 style="font-size:2.6em;">¿Preguntas?</h1>
+    <p style="margin-top:20px;font-size:0.65em;color:var(--gris);text-align:center;">
+      Gracias por la atención.
+    </p>
+
+    <div style="margin-top:20px;">
+      <p style="font-size:0.52em;color:var(--gris);text-align:center;">
+        <strong style="color:#fff;">Pablo Barreales Ferrandis</strong>
+        &nbsp;·&nbsp; pabbarfer@alu.edu.gva.es
+      </p>
+    </div>
+
+    <div class="pill-row fragment" style="justify-content:center;margin-top:20px;">
+      <div class="pill">Java 17</div>
+      <div class="pill">Spring Boot</div>
+      <div class="pill">MySQL 8</div>
+      <div class="pill">Docker</div>
+      <div class="pill">AWS EC2</div>
+      <div class="pill">HTTPS</div>
+    </div>
+  </div>
+</section>
+
+</div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/reveal.js"></script>
+<script>
+Reveal.initialize({
+  hash: true,
+  slideNumber: 'c/t',
+  transition: 'slide',
+  transitionSpeed: 'default',
+  backgroundTransition: 'fade',
+  center: true,
+  width: 960,
+  height: 600,
+  margin: 0.12,
+  minScale: 0.2,
+  maxScale: 2.0,
+  controls: true,
+  progress: true,
+  history: true,
+});
+</script>
 </body>
-
 </html>
